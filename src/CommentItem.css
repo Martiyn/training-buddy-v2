@@ -1,0 +1,36 @@
+.CommentItem {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 15px;
+  padding: 5px;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(181, 107, 107, 0.4),
+    rgba(65, 49, 49, 0)
+  );
+  border: 1px solid rgba(240, 240, 240, 0.4);
+}
+
+.CommentItem:hover {
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(185, 185, 185, 0.4),
+    rgba(185, 185, 185, 0)
+  );
+}
+
+.CommentItem-text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.CommentItem-title {
+    font-size: 20px;
+    font-weight: 300
+}
+
+.CommentItem-content {
+    font-size: 10px;
+    font-weight: lighter;
+}
