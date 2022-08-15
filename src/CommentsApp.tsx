@@ -20,6 +20,8 @@ export default class App extends React.Component<{}, CommentAppState> {
     this.handleCommentStatusUpdate = this.handleCommentStatusUpdate.bind(this);
     this.handleCommentEdit = this.handleCommentEdit.bind(this);
     this.handleCommentDelete = this.handleCommentDelete.bind(this);
+    this.handleFilterCommentByStatus =
+      this.handleFilterCommentByStatus.bind(this);
   }
 
   handleCommentStatusUpdate(comment: Comment) {
@@ -28,9 +30,24 @@ export default class App extends React.Component<{}, CommentAppState> {
     }));
   }
 
+  handleFilterCommentByStatus(filtered: Comment[]) {
+    this.setState(({ comments }) => ({
+      comments: filtered.sort(function (a, b) {
+        return (
+          Number(new Date(b.lastModifiedAt)) -
+          Number(new Date(a.lastModifiedAt))
+        );
+      }),
+    }));
+  }
+
   handleCommentEdit(comment: Comment) {}
 
-  handleCommentDelete(comment: Comment) {}
+  handleCommentDelete(comment: Comment) {
+    this.setState(({ comments }) => ({
+      comments: comments.filter((c) => c.id !== comment.id),
+    }));
+  }
 
   render() {
     return (
@@ -43,6 +60,7 @@ export default class App extends React.Component<{}, CommentAppState> {
             onUpdateCommentStatus={this.handleCommentStatusUpdate}
             onEditComment={this.handleCommentEdit}
             onDeleteComment={this.handleCommentDelete}
+            onFilterCommentsByStatus={this.handleFilterCommentByStatus}
           />
         </header>
       </div>

@@ -20,17 +20,39 @@
 }
 
 .CommentItem-text {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 .CommentItem-title {
-    font-size: 20px;
-    font-weight: 300
+  font-size: 20px;
+  font-weight: 300;
 }
 
 .CommentItem-content {
-    font-size: 10px;
-    font-weight: lighter;
+  font-size: 10px;
+  font-weight: lighter;
+}
+
+.CommentItem-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CommentItem-status-buttons,
+.CommentItem-edit-delete-buttons,
+.CommentItem-dates {
+  display: flex;
+  flex-direction: column;
+}
+
+.CommentItem-status-last-modified-at,
+.CommentItem-created-at {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 10px;
+  font-weight: lighter;
 }
