@@ -1,10 +1,12 @@
 import React from "react";
 import { CommentListener } from "./shared-types";
 import { Comment } from "./comments-model";
+import { MOCK_COMMENTS } from "./mock-comments";
 
 interface CommentInputProps {
+  comment: Comment;
   onCommentCreate: CommentListener;
-  onCommentEdit: CommentListener;
+  onEditComment: CommentListener;
 }
 
 interface CommentInputState {
@@ -17,8 +19,8 @@ export class CommentInput extends React.Component<
   CommentInputState
 > {
   state: Readonly<CommentInputState> = {
-    title: "",
-    content: "",
+    title: '',
+    content: '',
   };
 
   handleFieldChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,14 +38,10 @@ export class CommentInput extends React.Component<
     this.setState({ title: "", content: "" });
   };
 
-  handleEdit = (comment: Comment, event: React.FormEvent) => {
+  handleEdit = (event: React.FormEvent) => {
     event.preventDefault();
-    this.props.onCommentEdit({
-      ...comment,
-      title: this.state.title,
-      content: this.state.content,
-      lastModifiedAt: new Date(),
-    });
+    const comment = this.props.comment
+    this.props.onEditComment({...comment, title: this.state.title, content: this.state.content, lastModifiedAt: new Date()});
     this.setState({ title: "", content: "" });
   };
 
@@ -75,7 +73,7 @@ export class CommentInput extends React.Component<
         </button>
         <button
           className="CommentInput-submit"
-          onClick={() => this.handleEdit}
+          onClick={this.handleEdit}
           type="submit"
         >
           Edit

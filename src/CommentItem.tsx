@@ -29,6 +29,7 @@ export const CommentItem = ({ comment, ...rest }: CommentItemProps) => {
   }
 
   function handleCommentEdit() {
+    console.log('az sum itemcheto', comment)
     rest.onEditComment(comment);
   }
 

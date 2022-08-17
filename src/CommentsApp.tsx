@@ -56,16 +56,20 @@ export default class App extends React.Component<{}, CommentAppState> {
       comments: comments.filter((c) => c.id === comment.id),
     }));
   }
+
   handleCommentEdit(comment: Comment) {
     this.setState(({ comments }) => ({
-      comments: comments
-        .map((c) => (c.id === comment.id ? comment : c))
-        .sort(function (a, b) {
-          return (
-            Number(new Date(b.lastModifiedAt)) -
-            Number(new Date(a.lastModifiedAt))
-          );
-        }),
+      comments:
+        comments.length === 1
+          ? MOCK_COMMENTS.map((c) => (c.id === comment.id ? comment : c)).sort(
+              function (a, b) {
+                return (
+                  Number(new Date(b.lastModifiedAt)) -
+                  Number(new Date(a.lastModifiedAt))
+                );
+              }
+            )
+          : comments,
     }));
   }
 
@@ -92,8 +96,9 @@ export default class App extends React.Component<{}, CommentAppState> {
         <header className="App-header">
           <h2>React Comments Homework</h2>
           <CommentInput
+            comment={this.state.comments[0]}
             onCommentCreate={this.handleCommentCreate}
-            onCommentEdit={this.handleCommentEdit}
+            onEditComment={this.handleCommentEdit}
           />
           <CommentsFilter
             filter={this.state.filter}
