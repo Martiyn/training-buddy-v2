@@ -1,6 +1,7 @@
 import React from "react";
 import { CommentListener } from "./shared-types";
 import { Comment, CommentStatus } from "./comments-model";
+import { CommentInput } from "./CommentInput";
 import "./CommentItem.css";
 
 interface CommentItemProps {
@@ -27,7 +28,9 @@ export const CommentItem = ({ comment, ...rest }: CommentItemProps) => {
     });
   }
 
-  function handleCommentEdit() {}
+  function handleCommentEdit() {
+    rest.onEditComment(comment);
+  }
 
   function handleCommentDelete() {
     rest.onDeleteComment(comment);
@@ -48,6 +51,7 @@ export const CommentItem = ({ comment, ...rest }: CommentItemProps) => {
             type="radio"
             onClick={handleCommentStatusSuspend}
             checked={comment.status === CommentStatus.Suspended ? true : false}
+            readOnly={true}
           />
           Suspended
         </label>
@@ -56,6 +60,7 @@ export const CommentItem = ({ comment, ...rest }: CommentItemProps) => {
             type="radio"
             onClick={handleCommentStatusActivate}
             checked={comment.status === CommentStatus.Active ? true : false}
+            readOnly={true}
           />
           Active
         </label>
@@ -70,11 +75,11 @@ export const CommentItem = ({ comment, ...rest }: CommentItemProps) => {
       </div>
       <div className="CommentItem-dates">
         <span className="CommentItem-created-at">
-          <span>Created on:</span> <span>{comment.createdAt.toString()}</span>
+          <span>Created on:</span> <span>{comment.createdAt.toISOString()}</span>
         </span>
         <span className="CommentItem-status-last-modified-at">
           <span>Last modified on:</span>{" "}
-          <span>{comment.lastModifiedAt.toString()}</span>
+          <span>{comment.lastModifiedAt.toISOString()}</span>
         </span>
       </div>
     </div>
