@@ -1,10 +1,20 @@
-import { Comment } from "./comments-model";
-import { FilterType } from "./CommentsFilter";
+import { User, UserStatus } from "./users-model";
 
-export interface CommentListener {
-    (comment: Comment): void;
+
+export type FilterType = UserStatus | undefined;
+
+export interface Identifiable<K> {
+    id: K;
 }
 
-export interface FilterListener {
+export type IdType = number | undefined;
+
+export interface UserListener {
+    (todo: User): void;
+}
+
+export interface FilterChangeListener {
     (filter: FilterType): void;
 }
+
+export type Optional<V> = V | undefined
