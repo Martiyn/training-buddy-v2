@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Optional, UserListener } from "./shared-types";
-import { User } from "./users-model";
+import { User, UserRole } from "./users-model";
 import './UserLogin.css'
 
 interface UserLoginProps {
@@ -19,6 +19,7 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
         (user) => user.userName === userName && user.password === password
       );
       onLoginUser(userToLogin[0]);
+      alert(`Welcome ${userToLogin[0].userName} role: ${userToLogin[0].role}`);
     } catch (err) {
       console.log(err);
     }
@@ -28,11 +29,11 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
     <div className="UserLogin">
       {!loggedUser ? (
         <form className="UserLogin-form" onSubmit={handleUserLogin}>
-          <label htmlFor="userName">User Name: </label>
+          <label htmlFor="loginUserName"> User Name: </label>
           <input
             type="text"
-            id="userName"
-            name="userName"
+            id="loginUserName"
+            name="loginUserName"
             value={userName}
             onChange={(e) => {
               setUserName(e.target.value);
@@ -40,11 +41,11 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
             required
           />
 
-          <label htmlFor="password">Password: </label>
+          <label htmlFor="loginPassword"> Password: </label>
           <input
             type="password"
-            id="password"
-            name="password"
+            id="loginPassword"
+            name="loginPassword"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -56,7 +57,7 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
           </button>
         </form>
       ) : (
-        <span>Currently logged in: {loggedUser.userName}</span>
+        <span>Currently logged in: {loggedUser.userName} role: {UserRole[loggedUser.role]}</span>
       )}
     </div>
   );

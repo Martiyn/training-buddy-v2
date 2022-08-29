@@ -95,6 +95,7 @@ function UserAppFunction() {
         <UsersList
           users={users}
           filter={filter}
+          loggedUser={loggedUser}
           onDeleteUser={handleUserDelete}
           onEditUser={handleEditUser}
         />

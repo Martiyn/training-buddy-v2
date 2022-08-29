@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
-import { UserListener } from "./shared-types";
-import { User, UserStatus } from "./users-model";
+import { Optional, UserListener } from "./shared-types";
+import { User } from "./users-model";
 import { FilterType } from "./shared-types";
 import { UserItem } from "./UserItem";
 import './UsersList.css'
@@ -8,6 +8,7 @@ import './UsersList.css'
 interface UsersListProps {
   users: User[];
   filter: FilterType;
+  loggedUser: Optional<User>;
   onDeleteUser: UserListener;
   onEditUser: UserListener;
 }

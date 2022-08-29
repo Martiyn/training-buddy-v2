@@ -1,15 +1,21 @@
 import React from "react";
-import { UserListener } from "./shared-types";
-import { User, UserGender, UserStatus } from "./users-model";
+import { Optional, UserListener } from "./shared-types";
+import { User, UserGender, UserRole, UserStatus } from "./users-model";
 import "./UserItem.css";
 
 interface UserItemProps {
   user: User;
+  loggedUser: Optional<User>;
   onDeleteUser: UserListener;
   onEditUser: UserListener;
 }
 
-export const UserItem = ({ user, onDeleteUser, onEditUser }: UserItemProps) => {
+export const UserItem = ({
+  user,
+  loggedUser,
+  onDeleteUser,
+  onEditUser,
+}: UserItemProps) => {
   function handleEdit() {
     onEditUser(user);
   }
@@ -28,12 +34,21 @@ export const UserItem = ({ user, onDeleteUser, onEditUser }: UserItemProps) => {
       </span>
       <span className="UserItem-status">Status: {UserStatus[user.status]}</span>
       <span className="UserItem-gender">Gender: {UserGender[user.gender]}</span>
+      <span className="UserItem-role">Role: {UserRole[user.role]}</span>
       <span className="UserItem-created-modified-on">
         <p>Created On: {user.registeredOn}</p>
         <p>Updated On: {user.modifiedOn}</p>
       </span>
-      <span className='UserItem-button' onClick={handleDelete}>Delete</span>
-      <span className='UserItem-button' onClick={handleEdit}>Edit</span>
+      {loggedUser?.id === user.id || loggedUser?.role === UserRole.Admin ? (
+        <div className="UserItem-btn-container">
+          <span className="UserItem-button" onClick={handleDelete}>
+            Delete
+          </span>
+          <span className="UserItem-button" onClick={handleEdit}>
+            Edit
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 };
