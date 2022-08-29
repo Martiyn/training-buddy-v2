@@ -1,7 +1,7 @@
 import { Identifiable, IdType } from "./shared-types";
 import { User } from "./users-model";
 
-const API_BASE_URL = "http://localhost:4000/";
+const API_BASE_URL = "http://localhost:4000";
 
 export interface ApiClient<K, V extends Identifiable<K>> {
     findAll(): Promise<V[]>;

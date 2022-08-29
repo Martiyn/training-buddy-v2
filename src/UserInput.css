@@ -1,0 +1,17 @@
+.UserInput-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.UserInput-left-side, .UserInput-right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 5%;
+    width: 100%;
+}
+
+.UserInput-submit-btn {
+    margin-bottom: 5%;
+}

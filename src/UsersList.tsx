@@ -3,6 +3,7 @@ import { UserListener } from "./shared-types";
 import { User, UserStatus } from "./users-model";
 import { FilterType } from "./shared-types";
 import { UserItem } from "./UserItem";
+import './UsersList.css'
 
 interface UsersListProps {
   users: User[];

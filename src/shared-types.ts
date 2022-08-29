@@ -10,7 +10,7 @@ export interface Identifiable<K> {
 export type IdType = number | undefined;
 
 export interface UserListener {
-    (todo: User): void;
+    (user: User): void;
 }
 
 export interface FilterChangeListener {

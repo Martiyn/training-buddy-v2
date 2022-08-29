@@ -19,7 +19,7 @@ export const UserItem = ({ user, onDeleteUser, onEditUser }: UserItemProps) => {
   return (
     <div className="UserItem">
       <span className="UserItem-username">{user.userName}</span>
-      <span className="UserItem-picture">{user.picture}</span>
+      <img className="UserItem-picture" src={user.picture}></img>
       <span className="UserItem-names">
         {user.firstName} {user.lastName}
       </span>
@@ -29,9 +29,11 @@ export const UserItem = ({ user, onDeleteUser, onEditUser }: UserItemProps) => {
       <span className="UserItem-status">Status: {UserStatus[user.status]}</span>
       <span className="UserItem-gender">Gender: {UserGender[user.gender]}</span>
       <span className="UserItem-created-modified-on">
-        Created On: {user.registeredOn.toISOString()}
-        Updated On: {user.modifiedOn.toISOString()}
+        <p>Created On: {user.registeredOn}</p>
+        <p>Updated On: {user.modifiedOn}</p>
       </span>
+      <span className='UserItem-button' onClick={handleDelete}>Delete</span>
+      <span className='UserItem-button' onClick={handleEdit}>Edit</span>
     </div>
   );
 };
