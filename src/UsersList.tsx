@@ -1,22 +1,31 @@
 import React, { useMemo } from "react";
-import { Optional, UserListener } from "./shared-types";
+import { Optional, RoleFilterType, UserListener } from "./shared-types";
 import { User } from "./users-model";
-import { FilterType } from "./shared-types";
+import { StatusFilterType } from "./shared-types";
 import { UserItem } from "./UserItem";
-import './UsersList.css'
+import "./UsersList.css";
 
 interface UsersListProps {
   users: User[];
-  filter: FilterType;
+  statusFilter: StatusFilterType;
+  roleFilter: RoleFilterType;
   loggedUser: Optional<User>;
   onDeleteUser: UserListener;
   onEditUser: UserListener;
 }
 
-function UsersList({ users, filter, ...rest }: UsersListProps) {
+function UsersList({
+  users,
+  statusFilter,
+  roleFilter,
+  ...rest
+}: UsersListProps) {
   const filteredUsers = useMemo(
-    () => users.filter((user) => (!filter ? true : user.status === filter)),
-    [users, filter]
+    () =>
+      users
+        .filter((user) => (!statusFilter ? true : user.status === statusFilter))
+        .filter((user) => (!roleFilter ? true : user.role === roleFilter)),
+    [users, statusFilter, roleFilter]
   );
   return (
     <div className="UsersList">

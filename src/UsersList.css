@@ -1,7 +1,15 @@
 .UsersList {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+@media (max-width: 800px) {
+  .UsersList {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }

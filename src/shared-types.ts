@@ -1,7 +1,8 @@
-import { User, UserStatus } from "./users-model";
+import { User, UserRole, UserStatus } from "./users-model";
 
 
-export type FilterType = UserStatus | undefined;
+export type StatusFilterType = UserStatus | undefined;
+export type RoleFilterType = UserRole | undefined;
 
 export interface Identifiable<K> {
     id: K;
@@ -13,8 +14,12 @@ export interface UserListener {
     (user: User): void;
 }
 
-export interface FilterChangeListener {
-    (filter: FilterType): void;
+export interface StatusFilterChangeListener {
+    (statusFilter: StatusFilterType): void;
+}
+
+export interface RoleFilterChangeListener {
+    (roleFilter: RoleFilterType): void;
 }
 
 export type Optional<V> = V | undefined

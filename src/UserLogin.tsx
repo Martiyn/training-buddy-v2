@@ -19,7 +19,7 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
         (user) => user.userName === userName && user.password === password
       );
       onLoginUser(userToLogin[0]);
-      alert(`Welcome ${userToLogin[0].userName} role: ${userToLogin[0].role}`);
+      alert(`Welcome ${userToLogin[0].userName} role: ${UserRole[userToLogin[0].role]}`);
     } catch (err) {
       console.log(err);
     }

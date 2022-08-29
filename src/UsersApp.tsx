@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import { UsersApi } from "./rest-api-client";
-import { FilterType, Optional } from "./shared-types";
+import { StatusFilterType, Optional, RoleFilterType } from "./shared-types";
 import UserInput from "./UserInput";
 import UserLogin from "./UserLogin";
 import { User, UserStatus } from "./users-model";
+import UserStatusFilter from "./UserStatusFilter";
 import UsersList from "./UsersList";
+import UserRoleFilter from "./UserRoleFilter";
 
 function UserAppFunction() {
   const [users, setUsers] = useState<User[]>([]);
-  const [filter, setFilter] = useState<FilterType>(undefined);
+  const [statusFilter, setStatusFilter] = useState<StatusFilterType>(undefined);
+  const [roleFilter, setRoleFilter] = useState<RoleFilterType>(undefined);
   const [errors, setErrors] = useState<Optional<string>>(undefined);
   const [editedUser, setEditedUser] = useState<Optional<User>>(undefined);
   const [loggedUser, setLoggedUser] = useState<Optional<User>>(undefined);
@@ -23,8 +26,12 @@ function UserAppFunction() {
       .catch((err) => setErrors((err as any).toString()));
   }, []);
 
-  const handleFilterChange = (filter: FilterType) => {
-    setFilter(filter);
+  const handleStatusFilterChange = (statusFilter: StatusFilterType) => {
+    setStatusFilter(statusFilter);
+  };
+
+  const handleRoleFilterChange = (roleFilter: RoleFilterType) => {
+    setRoleFilter(roleFilter);
   };
 
   const handleUserLogin = useCallback(async (user: User) => {
@@ -89,12 +96,25 @@ function UserAppFunction() {
 
         <UserInput
           key={editedUser?.id}
-          user={editedUser}
+          loggedUser={loggedUser}
+          editUser={editedUser}
           onSubmitUser={handleUserSubmit}
         />
+
+        <UserStatusFilter
+          filter={statusFilter}
+          onFilterChange={handleStatusFilterChange}
+        />
+
+        <UserRoleFilter
+          filter={roleFilter}
+          onFilterChange={handleRoleFilterChange}
+        />
+
         <UsersList
           users={users}
-          filter={filter}
+          statusFilter={statusFilter}
+          roleFilter={roleFilter}
           loggedUser={loggedUser}
           onDeleteUser={handleUserDelete}
           onEditUser={handleEditUser}

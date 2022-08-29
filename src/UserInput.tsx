@@ -5,24 +5,28 @@ import "./UserInput.css";
 import React from "react";
 
 interface UserInputProps {
-  user: Optional<User>;
+  loggedUser: Optional<User>;
+  editUser: Optional<User>;
   onSubmitUser: UserListener;
 }
 
-
-function UserInput({ user, onSubmitUser }: UserInputProps) {
-  const [id, setId] = useState<string>(user?.id?.toString() || "");
-  const [firstName, setFirstName] = useState<string>(user?.firstName || "");
-  const [lastName, setLastName] = useState<string>(user?.lastName || "");
-  const [userName, setUserName] = useState<string>(user?.userName || "");
-  const [picture, setPicture] = useState<string>(user?.picture || "");
-  const [password, setPassword] = useState<string>(user?.password || "");
-  const [role, setRole] = useState<string>(user?.role.toString() || "1");
-  const [status, setStatus] = useState<string>(user?.status.toString() || "1");
-  const [shortDescription, setShortDescription] = useState<string>(
-    user?.shortDescription || ""
+function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
+  const [id, setId] = useState<string>(editUser?.id?.toString() || "");
+  const [firstName, setFirstName] = useState<string>(editUser?.firstName || "");
+  const [lastName, setLastName] = useState<string>(editUser?.lastName || "");
+  const [userName, setUserName] = useState<string>(editUser?.userName || "");
+  const [picture, setPicture] = useState<string>(editUser?.picture || "");
+  const [password, setPassword] = useState<string>(editUser?.password || "");
+  const [role, setRole] = useState<string>(editUser?.role.toString() || "1");
+  const [status, setStatus] = useState<string>(
+    editUser?.status.toString() || "1"
   );
-  const [gender, setGender] = useState<string>(user?.gender.toString() || "1");
+  const [shortDescription, setShortDescription] = useState<string>(
+    editUser?.shortDescription || ""
+  );
+  const [gender, setGender] = useState<string>(
+    editUser?.gender.toString() || "1"
+  );
 
   const handleUserSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -40,16 +44,16 @@ function UserInput({ user, onSubmitUser }: UserInputProps) {
         parseInt(status)
       )
     );
-    setId('')
-    setFirstName('')
-    setLastName('')
-    setPassword('')
-    setUserName('')
-    setShortDescription('')
-    setGender('1')
-    setStatus('1')
-    setRole('1')
-    setPicture('')
+    setId("");
+    setFirstName("");
+    setLastName("");
+    setPassword("");
+    setUserName("");
+    setShortDescription("");
+    setGender("1");
+    setStatus("1");
+    setRole("1");
+    setPicture("");
   };
 
   return (
@@ -57,7 +61,7 @@ function UserInput({ user, onSubmitUser }: UserInputProps) {
       <div className="UserInput-container">
         <div className="UserInput-left-side">
           <label htmlFor="id">ID</label>
-          <input type="text" id="id" name="id" defaultValue={id} disabled />
+          <input type="text" id="id" name="id" value={id} disabled />
 
           <label htmlFor="firstName">First Name</label>
           <input
@@ -105,6 +109,12 @@ function UserInput({ user, onSubmitUser }: UserInputProps) {
               setPassword(e.target.value);
             }}
             required
+            disabled={
+              loggedUser?.id !== editUser?.id &&
+              loggedUser?.role === UserRole.Admin
+                ? true
+                : false
+            }
           />
         </div>
 
