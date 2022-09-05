@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Optional, UserListener } from "./shared-types";
 import { User, UserRole } from "./users-model";
-import './UserLogin.css'
+import "./UserLogin.css";
 
 interface UserLoginProps {
   loggedUser: Optional<User>;
@@ -19,7 +19,11 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
         (user) => user.userName === userName && user.password === password
       );
       onLoginUser(userToLogin[0]);
-      alert(`Welcome ${userToLogin[0].userName} role: ${UserRole[userToLogin[0].role]}`);
+      alert(
+        `Welcome ${userToLogin[0].userName} role: ${
+          UserRole[userToLogin[0].role]
+        }`
+      );
     } catch (err) {
       console.log(err);
     }
@@ -57,7 +61,10 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
           </button>
         </form>
       ) : (
-        <span>Currently logged in: {loggedUser.userName} role: {UserRole[loggedUser.role]}</span>
+        <span>
+          Currently logged in: {loggedUser.userName} role:{" "}
+          {UserRole[loggedUser.role]}
+        </span>
       )}
     </div>
   );

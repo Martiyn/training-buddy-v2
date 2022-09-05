@@ -1,6 +1,12 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Optional, UserListener } from "./shared-types";
-import { User, UserGender, UserRole, UserStatus } from "./users-model";
+import {
+  toIsoDate,
+  User,
+  UserGender,
+  UserRole,
+  UserStatus,
+} from "./users-model";
 import "./UserInput.css";
 import React from "react";
 
@@ -41,7 +47,9 @@ function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
         parseInt(role),
         picture,
         shortDescription,
-        parseInt(status)
+        parseInt(status),
+        editUser?.registeredOn ? editUser.registeredOn : toIsoDate(new Date()),
+        toIsoDate(new Date())
       )
     );
     setId("");
