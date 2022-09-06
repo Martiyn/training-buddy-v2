@@ -9,14 +9,11 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Optional, UserListener } from "./shared-types";
 import { User, UserGender, UserRole, UserStatus } from "./users-model";
-import "./UserItem.css";
 
 const CARD_HEADER_HEIGHT = 60;
 const CARD_CONTENT_HEIGHT = 100;
@@ -49,45 +46,66 @@ export const UserItem = ({
   onDeleteUser,
   onEditUser,
 }: UserItemProps) => {
-  
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
   function handleEdit() {
     onEditUser(user);
   }
+
   function handleDelete() {
     onDeleteUser(user);
   }
+
   return (
-    <div className="UserItem">
-      <span className="UserItem-username">{user.userName}</span>
-      <img className="UserItem-picture" src={user.picture}></img>
-      <span className="UserItem-names">
-        {user.firstName} {user.lastName}
-      </span>
-      <span className="UserItem-description">
-        About me: {user.shortDescription}
-      </span>
-      <span className="UserItem-status">Status: {UserStatus[user.status]}</span>
-      <span className="UserItem-gender">Gender: {UserGender[user.gender]}</span>
-      <span className="UserItem-role">Role: {UserRole[user.role]}</span>
-      <span className="UserItem-created-modified-on">
-        <p>Created On: {user.registeredOn}</p>
-        <p>Updated On: {user.modifiedOn}</p>
-      </span>
-      {loggedUser?.id === user.id || loggedUser?.role === UserRole.Admin ? (
-        <div className="UserItem-btn-container">
-          <span className="UserItem-button" onClick={handleDelete}>
-            Delete
-          </span>
-          <span className="UserItem-button" onClick={handleEdit}>
-            Edit
-          </span>
-        </div>
-      ) : null}
-    </div>
+    <Card sx={{ width: 400 }}>
+      <CardHeader
+        sx={{ height: CARD_HEADER_HEIGHT }}
+        avatar={<Avatar alt="user" src={user.picture} />}
+        title={user.userName}
+        subheader={UserRole[user.role]}
+      />
+      <CardContent sx={{ height: CARD_CONTENT_HEIGHT }}>
+        <Typography paragraph>
+          {user.firstName} {user.lastName}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Gender: {UserGender[user.gender]}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Status: {UserStatus[user.status]}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        {loggedUser?.id === user.id || loggedUser?.role === UserRole.Admin ? (
+          <React.Fragment>
+            <IconButton onClick={handleEdit} aria-label="edit">
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={handleDelete} aria-label="delete">
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        ) : null}
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>About me: {user.shortDescription}</Typography>
+          <Typography paragraph>Registered on: {user.registeredOn}</Typography>
+          <Typography paragraph>Modified on: {user.modifiedOn}</Typography>
+        </CardContent>
+      </Collapse>
+    </Card>
   );
 };

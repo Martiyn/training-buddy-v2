@@ -8,7 +8,7 @@ export interface Identifiable<K> {
     id: K;
 }
 
-export type IdType = number | undefined;
+export type IdType = number | undefined | string;
 
 export interface UserListener {
     (user: User): void;

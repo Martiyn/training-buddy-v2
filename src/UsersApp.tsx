@@ -8,6 +8,8 @@ import { User, UserStatus } from "./users-model";
 import UserStatusFilter from "./UserStatusFilter";
 import UsersList from "./UsersList";
 import UserRoleFilter from "./UserRoleFilter";
+import Button from "@mui/material/Button";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 function UserAppFunction() {
   const [users, setUsers] = useState<User[]>([]);
@@ -85,13 +87,14 @@ function UserAppFunction() {
           onLoginUser={handleUserLogin}
         />
         {loggedUser ? (
-          <button
-            className="UserLogoutBtn"
+          <Button
+            variant="contained"
             onClick={handleUserLogout}
+            endIcon={<LogoutIcon />}
             type="button"
           >
             Logout
-          </button>
+          </Button>
         ) : null}
 
         <UserInput
