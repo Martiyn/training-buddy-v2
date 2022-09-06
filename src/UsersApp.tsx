@@ -13,8 +13,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 function UserAppFunction() {
   const [users, setUsers] = useState<User[]>([]);
-  const [statusFilter, setStatusFilter] = useState<StatusFilterType>(undefined);
-  const [roleFilter, setRoleFilter] = useState<RoleFilterType>(undefined);
+  const [statusFilter, setStatusFilter] = useState<StatusFilterType>(0);
+  const [roleFilter, setRoleFilter] = useState<RoleFilterType>(0);
   const [errors, setErrors] = useState<Optional<string>>(undefined);
   const [editedUser, setEditedUser] = useState<Optional<User>>(undefined);
   const [loggedUser, setLoggedUser] = useState<Optional<User>>(undefined);

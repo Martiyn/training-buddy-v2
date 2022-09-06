@@ -1,10 +1,8 @@
 import React from "react";
 import { RoleFilterChangeListener, RoleFilterType } from "./shared-types";
-import { UserRole, UserStatus } from "./users-model";
-import "./UserRoleFilter.css";
+import { UserRole } from "./users-model";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 
 interface UserRoleFilterProps {
@@ -19,7 +17,7 @@ export default function UserRoleFilter({
   function handleFilterChange(event: SelectChangeEvent<UserRole>) {
     onFilterChange(
       event.target.value === "0"
-        ? undefined
+        ? parseInt("0")
         : parseInt(event.target.value.toString())
     );
   }

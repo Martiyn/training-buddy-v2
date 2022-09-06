@@ -7,6 +7,12 @@
   gap: 20px 20px;
 }
 
+.UsersList-search-fields {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
 @media (max-width: 800px) {
   .UsersList {
     flex-direction: column;

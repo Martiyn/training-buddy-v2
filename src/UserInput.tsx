@@ -7,7 +7,7 @@ import {
   UserRole,
   UserStatus,
 } from "./users-model";
-import React, { BaseSyntheticEvent, FormEvent } from "react";
+import React, { BaseSyntheticEvent } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import InputText from "./InputText";
@@ -18,6 +18,8 @@ import { useForm } from "react-hook-form";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import "./UserInput.css";
+
+var passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
 interface UserInputProps {
   loggedUser: Optional<User>;
@@ -41,25 +43,27 @@ type FormData = {
 const schema = yup
   .object({
     id: yup.number().positive(),
-    firstName: yup.string().required().min(2).max(10),
-    lastName: yup.string().required().min(2).max(10),
-    userName: yup.string().required().min(2).max(15),
-    password: yup.string().required().min(5).max(15),
-    gender: yup.number().min(1).max(2),
-    role: yup.number().min(1).max(2),
+    firstName: yup.string().required().min(2).max(15),
+    lastName: yup.string().required().min(2).max(15),
+    userName: yup.string().required().min(5).max(15),
+    password: yup
+      .string()
+      .required()
+      .min(8)
+      .matches(
+        passwordRegex,
+        "password must contain at least one number and one special character"
+      ),
     picture: yup.string().required().url(),
-    shortDescription: yup.string().required().min(20).max(1000),
-    status: yup.number().min(1).max(3),
+    shortDescription: yup.string().required().max(512),
   })
   .required();
 
 function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
   const {
     control,
-    register,
     setValue,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: { ...editUser },
@@ -74,10 +78,6 @@ function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
   const [gender, setGender] = useState<string>(
     editUser?.gender.toString() || "1"
   );
-
-  const onReset = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
 
   const handleUserSubmit = (
     data: FormData,
@@ -138,21 +138,22 @@ function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
           label="First Name"
           control={control}
           error={errors.firstName?.message}
-          rules={{ required: true, minLength: 2, maxLength: 10 }}
+          rules={{ required: true, minLength: 2, maxLength: 15 }}
         />
         <InputText
           name="lastName"
           label="Last Name"
           control={control}
           error={errors.lastName?.message}
-          rules={{ required: true, minLength: 2, maxLength: 10 }}
+          rules={{ required: true, minLength: 2, maxLength: 15 }}
         />
         <InputText
           name="userName"
           label="User Name"
           control={control}
+          disabled={editUser ? true : false}
           error={errors.userName?.message}
-          rules={{ required: true, minLength: 2, maxLength: 15 }}
+          rules={{ required: true, minLength: 5, maxLength: 15 }}
         />
         <InputText
           name="picture"
@@ -172,14 +173,14 @@ function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
               ? true
               : false
           }
-          rules={{ required: true, minLength: 5, maxLength: 15 }}
+          rules={{ required: true, minLength: 8 }}
         />
         <InputText
           name="shortDescription"
           label="short Description"
           control={control}
           error={errors.shortDescription?.message}
-          rules={{ required: true, minLength: 20, maxLength: 1000 }}
+          rules={{ required: true, maxLength: 512 }}
         />
 
         <label htmlFor="status" color="primary">
@@ -192,6 +193,9 @@ function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
           name="status"
           value={status}
           label="Status"
+          disabled={
+            editUser && loggedUser?.role === UserRole.User ? true : false
+          }
           onChange={(e) => {
             setStatus(e.target.value);
           }}

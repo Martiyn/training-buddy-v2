@@ -1,7 +1,6 @@
 import React, { BaseSyntheticEvent, useState } from "react";
 import { Optional, UserListener } from "./shared-types";
 import { User, UserRole } from "./users-model";
-import "./UserLogin.css";
 import * as yup from "yup";
 import InputText from "./InputText";
 import Button from "@mui/material/Button";
@@ -19,8 +18,8 @@ interface UserLoginProps {
 function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
   const schema = yup
     .object({
-      userName: yup.string().required().min(2).max(15),
-      password: yup.string().required().min(5).max(15),
+      userName: yup.string().required(),
+      password: yup.string().required(),
     })
     .required();
 
@@ -82,14 +81,14 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
             label="User Name"
             control={control}
             error={errors.userName?.message}
-            rules={{ required: true, minLength: 2, maxLength: 15 }}
+            rules={{ required: true }}
           />
           <InputText
             name="password"
             label="Password"
             control={control}
             error={errors.password?.message}
-            rules={{ required: true, minLength: 5, maxLength: 15 }}
+            rules={{ required: true }}
           />
           <Button variant="contained" endIcon={<LoginIcon />} type="submit">
             Login

@@ -19,9 +19,9 @@
       "firstName": "Gosho",
       "lastName": "Goshev",
       "userName": "groshko123",
-      "password": "12345",
+      "password": "1234578M!",
       "gender": 1,
-      "role": 2,
+      "role": 1,
       "picture": "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHx8&w=1000&q=80",
       "shortDescription": "I have a crystal problem, pls help me!",
       "status": 1,
@@ -111,20 +111,6 @@
       "status": 1,
       "registeredOn": "2022-09-06",
       "modifiedOn": "2022-09-06"
-    },
-    {
-      "firstName": "adesgrtdh",
-      "lastName": "aefsgrdhtf",
-      "userName": "sdxfcbgnvh",
-      "password": "214141",
-      "gender": 1,
-      "role": 1,
-      "picture": "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHx8&w=1000&q=80",
-      "shortDescription": "sadgvbthsvdbdfndbbf dgnfbfv",
-      "status": 1,
-      "registeredOn": "2022-09-06",
-      "modifiedOn": "2022-09-06",
-      "id": 9
     }
   ]
 }

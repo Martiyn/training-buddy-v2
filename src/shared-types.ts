@@ -1,8 +1,8 @@
 import { User, UserRole, UserStatus } from "./users-model";
 
 
-export type StatusFilterType = UserStatus | undefined;
-export type RoleFilterType = UserRole | undefined;
+export type StatusFilterType = UserStatus;
+export type RoleFilterType = UserRole;
 
 export interface Identifiable<K> {
     id: K;

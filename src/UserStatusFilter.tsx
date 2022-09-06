@@ -4,7 +4,6 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import { StatusFilterChangeListener, StatusFilterType } from "./shared-types";
 import { UserStatus } from "./users-model";
-import "./UserStatusFilter.css";
 
 interface UserFilterProps {
   filter: StatusFilterType;
@@ -18,7 +17,7 @@ export default function UserStatusFilter({
   function handleFilterChange(event: SelectChangeEvent<UserStatus>) {
     onFilterChange(
       event.target.value === "0"
-        ? undefined
+        ? parseInt("0")
         : parseInt(event.target.value.toString())
     );
   }
