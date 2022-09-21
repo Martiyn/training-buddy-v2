@@ -1,5 +1,5 @@
-import { Identifiable, IdType } from "./shared-types";
-import { User } from "./users-model";
+import { Identifiable, IdType } from "./Utils/shared-types";
+import { User } from "./Utils/users-model";
 
 const API_BASE_URL = "http://localhost:4000";
 

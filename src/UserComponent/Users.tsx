@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
-import { UsersApi } from "./rest-api-client";
-import { StatusFilterType, Optional, RoleFilterType } from "./shared-types";
-import UserInput from "./UserInput";
-import UserLogin from "./UserLogin";
-import { User, UserStatus } from "./users-model";
+import { UsersApi } from "../rest-api-client";
+import { StatusFilterType, Optional, RoleFilterType } from "../Utils/shared-types";
+import UserInput from "../UserNotLoggedComponent/UserInput";
+import UserLogin from "../UserNotLoggedComponent/UserLogin";
+import { User, UserStatus } from "../Utils/users-model";
 import UserStatusFilter from "./UserStatusFilter";
 import UsersList from "./UsersList";
 import UserRoleFilter from "./UserRoleFilter";

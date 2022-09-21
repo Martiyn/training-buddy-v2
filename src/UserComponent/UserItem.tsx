@@ -12,8 +12,8 @@ import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Optional, UserListener } from "./shared-types";
-import { User, UserGender, UserRole, UserStatus } from "./users-model";
+import { Optional, UserListener } from "../Utils/shared-types";
+import { User, UserGender, UserRole, UserStatus } from "../Utils/users-model";
 
 const CARD_HEADER_HEIGHT = 60;
 const CARD_CONTENT_HEIGHT = 100;
@@ -60,14 +60,46 @@ export const UserItem = ({
     onDeleteUser(user);
   }
 
+  function stringToColor(string: string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name: string) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
+  }
+
   return (
     <Card sx={{ width: 400 }}>
       <CardHeader
         sx={{ height: CARD_HEADER_HEIGHT }}
-        avatar={<Avatar alt="user" src={user.picture} />}
-        title={user.userName}
-        subheader={UserRole[user.role]}
+        avatar={
+          <Avatar {...stringAvatar(user.firstName + " " + user.lastName)} />
+        }
+        title={<h2>{user.userName}</h2>}
+        subheader={<h3>{UserRole[user.role]}</h3>}
       />
+      <CardMedia component="img" height="194" image={user.picture} alt="user" />
       <CardContent sx={{ height: CARD_CONTENT_HEIGHT }}>
         <Typography paragraph>
           {user.firstName} {user.lastName}

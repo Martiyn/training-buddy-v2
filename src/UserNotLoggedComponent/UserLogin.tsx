@@ -1,6 +1,6 @@
 import React, { BaseSyntheticEvent, useState } from "react";
-import { Optional, UserListener } from "./shared-types";
-import { User, UserRole } from "./users-model";
+import { Optional, UserListener } from "../Utils/shared-types";
+import { User, UserRole } from "../Utils/users-model";
 import * as yup from "yup";
 import InputText from "./InputText";
 import Button from "@mui/material/Button";
@@ -51,11 +51,6 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
       onLoginUser(userToLogin[0]);
       setValue("userName", "");
       setValue("password", "");
-      alert(
-        `Welcome ${userToLogin[0].userName} role: ${
-          UserRole[userToLogin[0].role]
-        }`
-      );
     } catch (err) {
       console.log(err);
     }

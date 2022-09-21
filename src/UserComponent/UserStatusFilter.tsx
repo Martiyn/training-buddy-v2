@@ -2,8 +2,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
-import { StatusFilterChangeListener, StatusFilterType } from "./shared-types";
-import { UserStatus } from "./users-model";
+import { StatusFilterChangeListener, StatusFilterType } from "../Utils/shared-types";
+import { UserStatus } from "../Utils/users-model";
 
 interface UserFilterProps {
   filter: StatusFilterType;

@@ -1,6 +1,6 @@
 import React from "react";
-import { RoleFilterChangeListener, RoleFilterType } from "./shared-types";
-import { UserRole } from "./users-model";
+import { RoleFilterChangeListener, RoleFilterType } from "../Utils/shared-types";
+import { UserRole } from "../Utils/users-model";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -44,7 +44,8 @@ export default function UserRoleFilter({
         onChange={handleFilterChange}
       >
         <MenuItem value="0">All</MenuItem>
-        <MenuItem value={UserRole.User}>User</MenuItem>
+        <MenuItem value={UserRole.Trainee}>Trainee</MenuItem>
+        <MenuItem value={UserRole.Instructor}>Instructor</MenuItem>
         <MenuItem value={UserRole.Admin}>Admin</MenuItem>
       </Select>
     </React.Fragment>

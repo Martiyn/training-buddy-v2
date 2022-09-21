@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { IdType, Optional, UserListener } from "./shared-types";
+import { IdType, Optional, UserListener } from "../Utils/shared-types";
 import {
   toIsoDate,
   User,
   UserGender,
   UserRole,
   UserStatus,
-} from "./users-model";
+} from "../Utils/users-model";
 import React, { BaseSyntheticEvent } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -194,7 +194,7 @@ function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
           value={status}
           label="Status"
           disabled={
-            editUser && loggedUser?.role === UserRole.User ? true : false
+            editUser && loggedUser?.role === UserRole.Trainee ? true : false
           }
           onChange={(e) => {
             setStatus(e.target.value);
@@ -236,9 +236,11 @@ function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
           onChange={(e) => {
             setRole(e.target.value);
           }}
+          disabled={loggedUser?.role !== UserRole.Admin ? true : false}
           required
         >
-          <MenuItem value={UserRole.User}>User</MenuItem>
+          <MenuItem value={UserRole.Trainee}>Trainee</MenuItem>
+          <MenuItem value={UserRole.Instructor}>Instructor</MenuItem>
           <MenuItem value={UserRole.Admin}>Admin</MenuItem>
         </Select>
 

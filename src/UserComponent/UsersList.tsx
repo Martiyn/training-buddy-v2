@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
-import { Optional, RoleFilterType, UserListener } from "./shared-types";
-import { User } from "./users-model";
-import { StatusFilterType } from "./shared-types";
+import { Optional, RoleFilterType, UserListener } from "../Utils/shared-types";
+import { User } from "../Utils/users-model";
+import { StatusFilterType } from "../Utils/shared-types";
 import { UserItem } from "./UserItem";
 import "./UsersList.css";
 import TextField from "@mui/material/TextField";
@@ -22,19 +22,37 @@ function UsersList({
   ...rest
 }: UsersListProps) {
   const [userNameFilter, setUserNameFilter] = useState<string>("");
-  const [firstLastNameFilter, setFirstLastNameFilter] = useState<string>("");
+  const [firstNameFilter, setFirstNameFilter] = useState<string>("");
+  const [lastNameFilter, setLastNameFilter] = useState<string>("");
   const filteredUsers = useMemo(
     () =>
       users
         .filter((user) => (!statusFilter ? true : user.status === statusFilter))
         .filter((user) => (!roleFilter ? true : user.role === roleFilter))
-        .filter((user) => user.userName.indexOf(userNameFilter) > -1)
         .filter(
           (user) =>
-            user.firstName.indexOf(firstLastNameFilter) > -1 ||
-            user.lastName.indexOf(firstLastNameFilter) > -1
+            user.userName.toLowerCase().indexOf(userNameFilter.toLowerCase()) >
+            -1
+        )
+        .filter(
+          (user) =>
+            user.firstName
+              .toLowerCase()
+              .indexOf(firstNameFilter.toLowerCase()) > -1
+        )
+        .filter(
+          (user) =>
+            user.lastName.toLowerCase().indexOf(lastNameFilter.toLowerCase()) >
+            -1
         ),
-    [users, statusFilter, roleFilter, userNameFilter, firstLastNameFilter]
+    [
+      users,
+      statusFilter,
+      roleFilter,
+      userNameFilter,
+      firstNameFilter,
+      lastNameFilter,
+    ]
   );
   return (
     <React.Fragment>
@@ -54,11 +72,22 @@ function UsersList({
           sx={{
             backgroundColor: "#3c414c",
           }}
-          label="Search by first and last name"
-          placeholder="Search by first and last name"
-          value={firstLastNameFilter}
+          label="Search by first name"
+          placeholder="Search by first name"
+          value={firstNameFilter}
           onChange={(e) => {
-            setFirstLastNameFilter(e.target.value);
+            setFirstNameFilter(e.target.value);
+          }}
+        />
+        <TextField
+          sx={{
+            backgroundColor: "#3c414c",
+          }}
+          label="Search by last name"
+          placeholder="Search by last name"
+          value={lastNameFilter}
+          onChange={(e) => {
+            setLastNameFilter(e.target.value);
           }}
         />
       </div>

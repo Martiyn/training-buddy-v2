@@ -9,7 +9,7 @@ export enum UserGender {
 }
 
 export enum UserRole {
-    User = 1, Admin
+    Trainee = 1, Instructor, Admin, Anonymous
 }
 
 export class User {

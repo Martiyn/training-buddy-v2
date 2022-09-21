@@ -5,14 +5,14 @@
       "firstName": "Marto",
       "lastName": "Atanasov",
       "userName": "Dedo Masanga",
-      "password": "12345678ma",
+      "password": "12345678ma!",
       "gender": 1,
-      "role": 2,
+      "role": 3,
       "picture": "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHx8&w=1000&q=80",
       "shortDescription": "eyy we gotta get u working here",
       "status": 1,
       "registeredOn": "2022-08-29",
-      "modifiedOn": "2022-09-06"
+      "modifiedOn": "2022-09-21"
     },
     {
       "id": 2,
@@ -111,6 +111,20 @@
       "status": 1,
       "registeredOn": "2022-09-06",
       "modifiedOn": "2022-09-06"
+    },
+    {
+      "firstName": "nov",
+      "lastName": "novak",
+      "userName": "testnov",
+      "password": "12345678!",
+      "gender": 1,
+      "role": 1,
+      "picture": "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHx8&w=1000&q=80",
+      "shortDescription": "awfsrhtdjkukjdg",
+      "status": 1,
+      "registeredOn": "2022-09-21",
+      "modifiedOn": "2022-09-21",
+      "id": 9
     }
   ]
 }
