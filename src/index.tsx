@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import UserAppFunction from './UserComponent/Users';
+import Users from './UserComponent/Users';
+import Exercises from './ExercisesComponent/Exercises'
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -9,7 +10,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <UserAppFunction />
+    <Exercises />
   </React.StrictMode>
 );
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import "./App.css";
+import "../App.css";
 import { UsersApi } from "../rest-api-client";
 import { StatusFilterType, Optional, RoleFilterType } from "../Utils/shared-types";
-import UserInput from "../UserNotLoggedComponent/UserInput";
-import UserLogin from "../UserNotLoggedComponent/UserLogin";
+import UserInput from "../UserNotLoggedComponent/UserRegisterAndEditInput";
+import UserLogin from "../UserNotLoggedComponent/Login";
 import { User, UserStatus } from "../Utils/users-model";
 import UserStatusFilter from "./UserStatusFilter";
 import UsersList from "./UsersList";
@@ -11,7 +11,7 @@ import UserRoleFilter from "./UserRoleFilter";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-function UserAppFunction() {
+function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilterType>(0);
   const [roleFilter, setRoleFilter] = useState<RoleFilterType>(0);
@@ -127,4 +127,4 @@ function UserAppFunction() {
   );
 }
 
-export default UserAppFunction;
+export default Users;

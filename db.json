@@ -126,5 +126,17 @@
       "modifiedOn": "2022-09-21",
       "id": 9
     }
+  ],
+  "exercises": [
+    {
+      "id": 1,
+      "text": "dai mu we",
+      "status": 1
+    },
+    {
+      "text": "ma ai we",
+      "status": 1,
+      "id": 2
+    }
   ]
 }

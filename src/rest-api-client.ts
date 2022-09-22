@@ -1,3 +1,4 @@
+import { Exercise } from "./Utils/exercise-model";
 import { Identifiable, IdType } from "./Utils/shared-types";
 import { User } from "./Utils/users-model";
 
@@ -58,3 +59,4 @@ export class ApiClientImpl<K, V extends Identifiable<K>> implements ApiClient<K,
 }
 
 export const UsersApi: ApiClient<IdType, User> = new ApiClientImpl('users');
+export const ExerciseApi: ApiClient<IdType, Exercise> = new ApiClientImpl('exercises');
