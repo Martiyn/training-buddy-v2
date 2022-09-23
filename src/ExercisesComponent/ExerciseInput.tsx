@@ -16,6 +16,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useForm } from "react-hook-form";
 
 interface ExerciseInputProps {
+  userId: IdType;
   editExercise: Optional<Exercise>;
   onSubmitExercise: ExerciseListener;
 }
@@ -31,7 +32,11 @@ const schema = yup
   })
   .required();
 
-function UserInput({ editExercise, onSubmitExercise }: ExerciseInputProps) {
+function UserInput({
+  userId,
+  editExercise,
+  onSubmitExercise,
+}: ExerciseInputProps) {
   const {
     control,
     setValue,
@@ -47,7 +52,9 @@ function UserInput({ editExercise, onSubmitExercise }: ExerciseInputProps) {
     event: BaseSyntheticEvent<object, any, any> | undefined
   ) => {
     event?.preventDefault();
-    onSubmitExercise(new Exercise(data.id ? data.id : undefined, data.text));
+    onSubmitExercise(
+      new Exercise(data.id ? data.id : undefined, userId, data.text)
+    );
     setValue("text", "");
   };
 

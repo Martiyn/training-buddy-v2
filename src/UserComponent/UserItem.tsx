@@ -11,9 +11,10 @@ import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { Optional, UserListener } from "../Utils/shared-types";
 import { User, UserGender, UserRole, UserStatus } from "../Utils/users-model";
+import { Link } from "react-router-dom";
 
 const CARD_HEADER_HEIGHT = 60;
 const CARD_CONTENT_HEIGHT = 100;
@@ -25,33 +26,12 @@ interface UserItemProps {
   onEditUser: UserListener;
 }
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
 export const UserItem = ({
   user,
   loggedUser,
   onDeleteUser,
   onEditUser,
 }: UserItemProps) => {
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
   function handleEdit() {
     onEditUser(user);
   }
@@ -99,8 +79,8 @@ export const UserItem = ({
         title={<h2>{user.userName}</h2>}
         subheader={<h3>{UserRole[user.role]}</h3>}
       />
-      <CardMedia component="img" height="194" image={user.picture} alt="user" />
-      <CardContent sx={{ height: CARD_CONTENT_HEIGHT }}>
+      <CardMedia component="img" height="150" image={user.picture} alt="user" />
+      <CardContent sx={{ overflow: "auto", height: CARD_CONTENT_HEIGHT }}>
         <Typography paragraph>
           {user.firstName} {user.lastName}
         </Typography>
@@ -109,6 +89,15 @@ export const UserItem = ({
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Status: {UserStatus[user.status]}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          About me: {user.shortDescription}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Registered on: {user.registeredOn}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Modified on: {user.modifiedOn}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -122,22 +111,10 @@ export const UserItem = ({
             </IconButton>
           </React.Fragment>
         ) : null}
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
+        <IconButton component={Link} to={`exercises/${user.id}`}>
+          <FitnessCenterIcon />
+        </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>About me: {user.shortDescription}</Typography>
-          <Typography paragraph>Registered on: {user.registeredOn}</Typography>
-          <Typography paragraph>Modified on: {user.modifiedOn}</Typography>
-        </CardContent>
-      </Collapse>
     </Card>
   );
 };

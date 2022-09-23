@@ -1,16 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import Users from './UserComponent/Users';
-import Exercises from './ExercisesComponent/Exercises'
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import Users from "./UserComponent/Users";
+import Exercises from "./ExercisesComponent/Exercises";
+import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Users />,
+  },
+  {
+    path: "/exercises/:userId",
+    element: <Exercises />,
+  },
+]);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Exercises />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

@@ -55,7 +55,7 @@ const schema = yup
         "password must contain at least one number and one special character"
       ),
     picture: yup.string().required().url(),
-    shortDescription: yup.string().required().max(512),
+    shortDescription: yup.string().required().max(75),
   })
   .required();
 

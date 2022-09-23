@@ -16,7 +16,6 @@ export default function TodoFilter({filter, onFilterChange}: TodoFilterProps) {
             <option value='0'>All</option>
             <option value={ExerciseStatus.Active}>Active</option>
             <option value={ExerciseStatus.Completed}>Completed</option>
-            <option value={ExerciseStatus.Canceled}>Canceled</option>
         </select>
 
     );

@@ -1,26 +1,23 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Exercise, ExerciseStatus } from "../Utils/exercise-model";
+import {
+  Exercise,
+  ExerciseFilterType,
+  ExerciseStatus,
+} from "../Utils/exercise-model";
 import ExerciseList from "./ExercisesList";
 import ExerciseFilter from "./ExerciseFilter";
 import { ExerciseApi } from "../rest-api-client";
 import ExerciseInput from "./ExerciseInput";
 import "../App.css";
 import { Optional } from "../Utils/shared-types";
-
-export type FilterType = ExerciseStatus | undefined;
-
-export interface TodoListener {
-  (exercise: Exercise): void;
-}
-
-export interface FilterChangeListener {
-  (filter: FilterType): void;
-}
+import { useParams } from "react-router-dom";
 
 function Exercises() {
+  let { userId } = useParams();
   const [exercises, setExercises] = useState([] as Exercise[]);
-  const [filter, setFilter] = useState(undefined as FilterType);
-  const [editedExercise, setEditedExercise] = useState<Optional<Exercise>>(undefined);
+  const [filter, setFilter] = useState(undefined as ExerciseFilterType);
+  const [editedExercise, setEditedExercise] =
+    useState<Optional<Exercise>>(undefined);
 
   useEffect(() => {
     ExerciseApi.findAll()
@@ -47,7 +44,6 @@ function Exercises() {
     setEditedExercise(exercise);
   }, []);
 
-
   const handleSubmitExercise = useCallback(async (exercise: Exercise) => {
     try {
       if (exercise.id) {
@@ -67,13 +63,19 @@ function Exercises() {
   return (
     <div className="App">
       <header className="App-header">
-        <ExerciseInput key={editedExercise?.id} editExercise={editedExercise} onSubmitExercise={handleSubmitExercise} />
+        <ExerciseInput
+          key={editedExercise?.id}
+          userId={Number(userId)}
+          editExercise={editedExercise}
+          onSubmitExercise={handleSubmitExercise}
+        />
         <ExerciseFilter
           filter={filter}
           onFilterChange={(filter) => setFilter(filter)}
         />
         <ExerciseList
           exercises={exercises}
+          userId={Number(userId)}
           filter={filter}
           onUpdateExercise={handleSubmitExercise}
           onDeleteExercise={handleDeleteExercise}
