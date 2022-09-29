@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "../App.css";
 import { UsersApi } from "../rest-api-client";
-import { StatusFilterType, Optional, RoleFilterType } from "../Utils/shared-types";
+import {
+  StatusFilterType,
+  Optional,
+  RoleFilterType,
+} from "../Utils/shared-types";
 import UserInput from "../UserNotLoggedComponent/UserRegisterAndEditInput";
 import UserLogin from "../UserNotLoggedComponent/Login";
 import { User, UserStatus } from "../Utils/users-model";
@@ -10,22 +14,28 @@ import UsersList from "./UsersList";
 import UserRoleFilter from "./UserRoleFilter";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useLoaderData, useParams } from "react-router-dom";
 
 function Users() {
+  let { userId } = useParams();
   const [users, setUsers] = useState<User[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilterType>(0);
   const [roleFilter, setRoleFilter] = useState<RoleFilterType>(0);
-  const [errors, setErrors] = useState<Optional<string>>(undefined);
   const [editedUser, setEditedUser] = useState<Optional<User>>(undefined);
   const [loggedUser, setLoggedUser] = useState<Optional<User>>(undefined);
+
+  if (userId) {
+    UsersApi.findById(userId).then((loggedUser) => {
+      setLoggedUser(loggedUser);
+    });
+  }
 
   useEffect(() => {
     UsersApi.findAll()
       .then((allUsers) => {
         setUsers(allUsers);
-        setErrors(undefined);
       })
-      .catch((err) => setErrors((err as any).toString()));
+      .catch((err) => console.log(err));
   }, []);
 
   const handleStatusFilterChange = (statusFilter: StatusFilterType) => {
@@ -35,10 +45,6 @@ function Users() {
   const handleRoleFilterChange = (roleFilter: RoleFilterType) => {
     setRoleFilter(roleFilter);
   };
-
-  const handleUserLogin = useCallback(async (user: User) => {
-    setLoggedUser(user);
-  }, []);
 
   const handleUserLogout = useCallback(() => {
     setLoggedUser(undefined);
@@ -51,14 +57,12 @@ function Users() {
         setUsers((users) =>
           users.map((u) => (u.id === updated.id ? updated : u))
         );
-        setErrors(undefined);
       } else {
         const created = await UsersApi.create(user);
         setUsers((users) => users.concat(created));
-        setErrors(undefined);
       }
     } catch (err) {
-      setErrors((err as any).toString());
+      console.log(err);
     }
   }, []);
 
@@ -70,22 +74,13 @@ function Users() {
     try {
       await UsersApi.deleteById(user.id);
       setUsers((users) => users.filter((u) => u.id !== user.id));
-      setErrors(undefined);
     } catch (err) {
-      setErrors((err as any).toString());
+      console.log(err);
     }
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h2>React Users homework</h2>
-        {errors && <div className="errors">{errors}</div>}
-        <UserLogin
-          loggedUser={loggedUser}
-          users={users}
-          onLoginUser={handleUserLogin}
-        />
+    <div className="Container">
         {loggedUser ? (
           <Button
             variant="contained"
@@ -96,7 +91,6 @@ function Users() {
             Logout
           </Button>
         ) : null}
-
         <UserInput
           key={editedUser?.id}
           loggedUser={loggedUser}
@@ -122,7 +116,6 @@ function Users() {
           onDeleteUser={handleUserDelete}
           onEditUser={handleEditUser}
         />
-      </header>
     </div>
   );
 }

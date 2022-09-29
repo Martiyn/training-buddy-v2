@@ -10,7 +10,7 @@ import {
 import React, { BaseSyntheticEvent } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import InputText from "./InputText";
+import InputText from "../InputTemplates/InputText";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";

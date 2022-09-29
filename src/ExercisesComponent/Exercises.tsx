@@ -61,8 +61,7 @@ function Exercises() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="Container">
         <ExerciseInput
           key={editedExercise?.id}
           userId={Number(userId)}
@@ -81,7 +80,6 @@ function Exercises() {
           onDeleteExercise={handleDeleteExercise}
           onEditExercise={handleEditExercise}
         />
-      </header>
     </div>
   );
 }

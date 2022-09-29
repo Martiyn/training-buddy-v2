@@ -1,3 +1,4 @@
+import { Stack } from "@mui/material";
 import { useMemo } from "react";
 import { Exercise, ExerciseStatus } from "../Utils/exercise-model";
 import { ExerciseFilterType, ExerciseListener } from "../Utils/exercise-model";
@@ -31,10 +32,10 @@ export default function ExerciseList({
     [exercises, filter]
   );
   return (
-    <div className="TodoList">
+    <Stack spacing={2}>
       {memoizedVisibleExercises.map((exercise) => (
         <ExerciseItem exercise={exercise} key={exercise.id} {...rest} />
       ))}
-    </div>
+    </Stack>
   );
 }

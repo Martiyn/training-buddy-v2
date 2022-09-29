@@ -4,12 +4,27 @@ import "./index.css";
 import Users from "./UserComponent/Users";
 import Exercises from "./ExercisesComponent/Exercises";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
+import UserLogin from "./UserNotLoggedComponent/Login";
+import { UsersApi } from "./rest-api-client";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Users />,
+  },
+  {
+    path: "/:userId",
+    element: <Users />,
+  },
+  {
+    path: "/login",
+    loader: () => UsersApi.findAll(),
+    element: <UserLogin />,
   },
   {
     path: "/exercises/:userId",

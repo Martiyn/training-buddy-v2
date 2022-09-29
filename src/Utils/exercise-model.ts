@@ -3,6 +3,10 @@ export enum ExerciseStatus {
   Active = 1, Completed
 }
 
+export enum ExerciseType {
+  Reps = 1, Hold
+}
+
 export interface ExerciseListener {
   (exercise: Exercise): void;
 }
@@ -18,6 +22,9 @@ export class Exercise {
     public id: IdType,
     public userId: IdType,
     public text: string,
-    public status = ExerciseStatus.Active,
+    public type: ExerciseType,
+    public reps?: number,
+    public hold?: number,
+    public status = ExerciseStatus.Active
   ) { }
 }

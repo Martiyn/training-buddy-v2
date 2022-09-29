@@ -4,16 +4,17 @@ import React, {
   useCallback,
   useState,
 } from "react";
-import { Exercise } from "../Utils/exercise-model";
+import { Exercise, ExerciseType } from "../Utils/exercise-model";
 import { ExerciseListener } from "../Utils/exercise-model";
 import { IdType, Optional } from "../Utils/shared-types";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import InputText from "../UserNotLoggedComponent/InputText";
+import InputText from "../InputTemplates/InputText";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { useForm } from "react-hook-form";
+import { MenuItem, Select, TextField } from "@mui/material";
 
 interface ExerciseInputProps {
   userId: IdType;
@@ -24,11 +25,15 @@ interface ExerciseInputProps {
 type FormData = {
   id: IdType;
   text: string;
+  type: ExerciseType;
+  reps?: number;
+  hold?: number;
 };
 
 const schema = yup
   .object({
     text: yup.string().required().min(2).max(50),
+    type: yup.number().min(1).max(2),
   })
   .required();
 
@@ -37,6 +42,9 @@ function UserInput({
   editExercise,
   onSubmitExercise,
 }: ExerciseInputProps) {
+  const [type, setType] = useState<string>("1");
+  const [reps, setReps] = useState<string>("0");
+  const [hold, setHold] = useState<string>("0");
   const {
     control,
     setValue,
@@ -47,15 +55,26 @@ function UserInput({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
-  const handleUserSubmit = (
+
+  const handleExerciseSubmit = (
     data: FormData,
     event: BaseSyntheticEvent<object, any, any> | undefined
   ) => {
     event?.preventDefault();
     onSubmitExercise(
-      new Exercise(data.id ? data.id : undefined, userId, data.text)
+      new Exercise(
+        data.id ? data.id : undefined,
+        userId,
+        data.text,
+        parseInt(type),
+        parseInt(reps),
+        parseInt(hold)
+      )
     );
     setValue("text", "");
+    setValue("type", 1);
+    setReps("0");
+    setHold("0");
   };
 
   return (
@@ -70,7 +89,7 @@ function UserInput({
         }}
         noValidate
         autoComplete="off"
-        onSubmit={handleSubmit(handleUserSubmit)}
+        onSubmit={handleSubmit(handleExerciseSubmit)}
       >
         <InputText
           name="text"
@@ -78,6 +97,48 @@ function UserInput({
           control={control}
           error={errors.text?.message}
           rules={{ required: true, minLength: 2, maxLength: 15 }}
+        />
+
+        <label htmlFor="Type" color="primary">
+          Exercise type:{"  "}
+        </label>
+        <Select
+          sx={{
+            backgroundColor: "#118bee",
+          }}
+          name="type"
+          value={type}
+          label="type"
+          onChange={(event) => {
+            setType(event.target.value);
+            parseInt(event.target.value) === 1 ? setHold("0") : setReps("0");
+          }}
+          required
+        >
+          <MenuItem value={ExerciseType.Reps}>Reps</MenuItem>
+          <MenuItem value={ExerciseType.Hold}>Hold</MenuItem>
+        </Select>
+
+        <TextField
+          type="number"
+          name="Reps"
+          label="Repetitions"
+          variant="filled"
+          value={reps}
+          onChange={(event) => setReps(event.target.value)}
+          disabled={parseInt(type) !== 1}
+          required
+        />
+
+        <TextField
+          type="number"
+          name="Hold"
+          label="Seconds"
+          variant="filled"
+          value={hold}
+          onChange={(event) => setHold(event.target.value)}
+          disabled={parseInt(type) !== 2}
+          required
         />
         <Button variant="contained" endIcon={<SendIcon />} type="submit">
           Submit

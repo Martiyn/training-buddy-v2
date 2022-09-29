@@ -2,20 +2,20 @@ import React, { BaseSyntheticEvent, useState } from "react";
 import { Optional, UserListener } from "../Utils/shared-types";
 import { User, UserRole } from "../Utils/users-model";
 import * as yup from "yup";
-import InputText from "./InputText";
+import InputText from "../InputTemplates/InputText";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import LoginIcon from "@mui/icons-material/Login";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Link, redirect, useLoaderData } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import "../App.css";
 
-interface UserLoginProps {
-  loggedUser: Optional<User>;
-  users: User[];
-  onLoginUser: UserListener;
-}
+function UserLogin() {
+  const [loggedUser, setLoggedUser] = useState<Optional<User>>(undefined);
+  const users = useLoaderData() as User[];
 
-function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
   const schema = yup
     .object({
       userName: yup.string().required(),
@@ -48,7 +48,11 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
         (user) =>
           user.userName === data.userName && user.password === data.password
       );
-      onLoginUser(userToLogin[0]);
+      if (userToLogin.length > 0) {
+        setLoggedUser(userToLogin[0]);
+      } else {
+        alert("Please check your username and password and try again.");
+      }
       setValue("userName", "");
       setValue("password", "");
     } catch (err) {
@@ -58,43 +62,50 @@ function UserLogin({ loggedUser, users, onLoginUser }: UserLoginProps) {
 
   return (
     <React.Fragment>
-      {!loggedUser ? (
-        <Box
-          component="form"
-          sx={{
-            backgroundColor: "#ddf",
-            padding: "20px",
-            "& .MuiTextField-root": { m: 1, width: "calc(100% - 20px)" },
-            "& .MuiButton-root": { m: 1, width: "25ch" },
-          }}
-          noValidate
-          autoComplete="off"
-          onSubmit={handleSubmit(handleUserLogin)}
-        >
-          <InputText
-            name="userName"
-            label="User Name"
-            control={control}
-            error={errors.userName?.message}
-            rules={{ required: true }}
-          />
-          <InputText
-            name="password"
-            label="Password"
-            control={control}
-            error={errors.password?.message}
-            rules={{ required: true }}
-          />
-          <Button variant="contained" endIcon={<LoginIcon />} type="submit">
-            Login
+      <div className="Container">
+        {!loggedUser ? (
+          <Box
+            component="form"
+            sx={{
+              backgroundColor: "#ddf",
+              padding: "20px",
+              "& .MuiTextField-root": { m: 1, width: "calc(100% - 20px)" },
+              "& .MuiButton-root": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit(handleUserLogin)}
+          >
+            <InputText
+              name="userName"
+              label="User Name"
+              control={control}
+              error={errors.userName?.message}
+              rules={{ required: true }}
+            />
+            <InputText
+              name="password"
+              label="Password"
+              control={control}
+              error={errors.password?.message}
+              rules={{ required: true }}
+            />
+            <Button variant="contained" endIcon={<LoginIcon />} type="submit">
+              Login
+            </Button>
+          </Box>
+        ) : (
+          <Button
+            component={Link}
+            to={`/${loggedUser.id}`}
+            variant="contained"
+            endIcon={<LoginIcon />}
+            type="button"
+          >
+            Go to training
           </Button>
-        </Box>
-      ) : (
-        <span>
-          Currently logged in: {loggedUser.userName} role:{" "}
-          {UserRole[loggedUser.role]}
-        </span>
-      )}
+        )}
+      </div>
     </React.Fragment>
   );
 }

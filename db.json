@@ -132,7 +132,10 @@
       "id": 1,
       "userId": 1,
       "text": "I will now edit an exercise",
-      "status": 2
+      "type": 1,
+      "reps": 4,
+      "hold": 0,
+      "status": 1
     },
     {
       "id": 2,
@@ -151,6 +154,20 @@
       "userId": 1,
       "text": "now to edit another one for testing",
       "status": 1
+    },
+    {
+      "userId": 1,
+      "text": "adadaddadad",
+      "status": 1,
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "text": "eafsgdthf",
+      "reps": 7,
+      "hold": 8,
+      "status": 1,
+      "id": 6
     }
   ]
 }
