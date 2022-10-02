@@ -1,9 +1,20 @@
-import { Card, IconButton, Typography } from "@mui/material";
+import {
+  Card,
+  IconButton,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import React from "react";
-import { Exercise, ExerciseStatus } from "../Utils/exercise-model";
+import {
+  Exercise,
+  ExerciseStatus,
+  ExerciseType,
+} from "../Utils/exercise-model";
 import { ExerciseListener } from "../Utils/exercise-model";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
 
 interface ExerciseItemProps {
   exercise: Exercise;
@@ -25,41 +36,34 @@ const ExerciseItem = ({
     onDeleteExercise(exercise);
   }
   return (
-    <Card
-      sx={{
-        height: 30,
-        width: 700,
-        backgroundColor: "#ddf",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "space-between",
-      }}
+    <TableRow
+      key={exercise.text}
+      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
     >
-      <Typography
-        sx={{
-          mx: 5,
-        }}
-        variant="body2"
-        color="text.primary"
-      >
+      <TableCell component="th" scope="row">
         {exercise.text}
-      </Typography>
-      <Typography
-        sx={{
-          mx: 5,
-        }}
-        variant="body2"
-        color="text.primary"
-      >
-        {ExerciseStatus[exercise.status]}
-      </Typography>
-      <IconButton onClick={() => onEditExercise(exercise)} aria-label="edit">
-        <EditIcon />
-      </IconButton>
-      <IconButton onClick={handleDelete} aria-label="delete">
-        <DeleteIcon />
-      </IconButton>
-    </Card>
+      </TableCell>
+      <TableCell align="right">{ExerciseStatus[exercise.status]}</TableCell>
+      <TableCell align="right">{ExerciseType[exercise.type]}</TableCell>
+      <TableCell align="right">{exercise.reps}</TableCell>
+      <TableCell align="right">{exercise.hold} sec.</TableCell>
+      <TableCell align="right">
+        <IconButton onClick={() => onEditExercise(exercise)} aria-label="edit">
+          <EditIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell align="right">
+        {exercise.status === ExerciseStatus.Active ? (
+          <IconButton onClick={handleCompletion} aria-label="delete">
+            <CheckIcon />
+          </IconButton>
+        ) : (
+          <IconButton onClick={handleDelete} aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        )}
+      </TableCell>
+    </TableRow>
     // <div className="TodoItem">
     //   <span className="TodoItem-text">{exercise.text}</span>
     //   <span className="TodoItem-right">

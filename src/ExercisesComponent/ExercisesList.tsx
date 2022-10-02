@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useMemo } from "react";
 import { Exercise, ExerciseStatus } from "../Utils/exercise-model";
 import { ExerciseFilterType, ExerciseListener } from "../Utils/exercise-model";
@@ -32,10 +32,25 @@ export default function ExerciseList({
     [exercises, filter]
   );
   return (
-    <Stack spacing={2}>
-      {memoizedVisibleExercises.map((exercise) => (
-        <ExerciseItem exercise={exercise} key={exercise.id} {...rest} />
-      ))}
-    </Stack>
+    <TableContainer sx={{ width: 650 }} component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Exercise</TableCell>
+            <TableCell align="right">Status</TableCell>
+            <TableCell align="right">Type</TableCell>
+            <TableCell align="right">Reps</TableCell>
+            <TableCell align="right">Hold</TableCell>
+            <TableCell align="right">Edit</TableCell>
+            <TableCell align="right">Complete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {memoizedVisibleExercises.map((exercise) => (
+            <ExerciseItem exercise={exercise} key={exercise.id} {...rest} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

@@ -33,7 +33,6 @@ type FormData = {
 const schema = yup
   .object({
     text: yup.string().required().min(2).max(50),
-    type: yup.number().min(1).max(2),
   })
   .required();
 
@@ -42,9 +41,9 @@ function UserInput({
   editExercise,
   onSubmitExercise,
 }: ExerciseInputProps) {
-  const [type, setType] = useState<string>("1");
-  const [reps, setReps] = useState<string>("0");
-  const [hold, setHold] = useState<string>("0");
+  const [type, setType] = useState<string>(editExercise?.type.toString() || "1");
+  const [reps, setReps] = useState<string>(editExercise?.reps?.toString() || "0");
+  const [hold, setHold] = useState<string>(editExercise?.hold?.toString() || "0");
   const {
     control,
     setValue,
@@ -122,6 +121,7 @@ function UserInput({
         <TextField
           type="number"
           name="Reps"
+          InputProps={{ inputProps: { min: 0 } }}
           label="Repetitions"
           variant="filled"
           value={reps}
@@ -133,6 +133,7 @@ function UserInput({
         <TextField
           type="number"
           name="Hold"
+          InputProps={{ inputProps: { min: 0 } }}
           label="Seconds"
           variant="filled"
           value={hold}
