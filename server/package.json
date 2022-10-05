@@ -1,0 +1,25 @@
+{
+  "name": "homework-app",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "rxjs": "^7.5.7",
+    "typescript": "^4.4.2"
+  },
+  "scripts": {
+    "server": "nodemon -e ts --exec \"npm run start\"",
+    "tsc": "tsc -w",
+    "start": "node --loader ts-node/esm ./src/express-rest-api.ts",
+    "build": "tsc",
+    "nodemon": "nodemon"
+  },
+  "devDependencies": {
+    "json-server": "^0.17.0",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.0"
+  }
+}

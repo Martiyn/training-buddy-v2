@@ -1,0 +1,32 @@
+[
+    {
+      "id": 1,
+      "userId": 1,
+      "text": "I will now edit an exercise",
+      "type": 1,
+      "reps": 1,
+      "hold": 0,
+      "status": 1
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "text": "Now I will edit for user 2",
+      "status": 1
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "text": "and now we edit for user 3",
+      "status": 1
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "text": "now to edit another one for testing",
+      "type": 2,
+      "reps": 0,
+      "hold": 8,
+      "status": 1
+    }
+  ]
