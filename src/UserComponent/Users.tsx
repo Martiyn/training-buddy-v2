@@ -14,7 +14,7 @@ import UsersList from "./UsersList";
 import UserRoleFilter from "./UserRoleFilter";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useLoaderData, useParams } from "react-router-dom";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 
 function Users() {
   let { userId } = useParams();
@@ -47,7 +47,7 @@ function Users() {
   };
 
   const handleUserLogout = useCallback(() => {
-    setLoggedUser(undefined);
+    setLoggedUser(null);
   }, []);
 
   const handleUserSubmit = useCallback(async (user: User) => {
@@ -83,6 +83,8 @@ function Users() {
     <div className="Container">
         {loggedUser ? (
           <Button
+          component={Link}
+            to={`/`}
             variant="contained"
             onClick={handleUserLogout}
             endIcon={<LogoutIcon />}

@@ -61,7 +61,6 @@ router.put('/:userId', async function (req, res) {
                 users[i] = editedUser
             }
         });
-        users.push(editedUser);
         try {
             promises.writeFile(usersDb, JSON.stringify(users));
             res.json(editedUser);

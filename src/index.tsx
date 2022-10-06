@@ -11,24 +11,36 @@ import {
 } from "react-router-dom";
 import UserLogin from "./UserNotLoggedComponent/Login";
 import { UsersApi } from "./rest-api-client";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Users />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/:userId",
     element: <Users />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/login",
     loader: () => UsersApi.findAll(),
     element: <UserLogin />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/exercises/:userId",
+    loader: () => UsersApi.findAll(),
     element: <Exercises />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <ErrorPage />,
+      },
+    ],
   },
 ]);
 

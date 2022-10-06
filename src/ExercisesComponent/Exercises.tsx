@@ -10,14 +10,20 @@ import { ExerciseApi } from "../rest-api-client";
 import ExerciseInput from "./ExerciseInput";
 import "../App.css";
 import { Optional } from "../Utils/shared-types";
-import { useParams } from "react-router-dom";
+import { Outlet, useLoaderData, useParams } from "react-router-dom";
+import { User } from "../Utils/users-model";
 
 function Exercises() {
   let { userId } = useParams();
+  const users = useLoaderData() as User[];
   const [exercises, setExercises] = useState([] as Exercise[]);
   const [filter, setFilter] = useState(undefined as ExerciseFilterType);
   const [editedExercise, setEditedExercise] =
     useState<Optional<Exercise>>(undefined);
+
+  const userExists = users.find((u) => {
+    return u.id === parseInt(userId);
+  });
 
   useEffect(() => {
     ExerciseApi.findAll()
@@ -62,24 +68,32 @@ function Exercises() {
 
   return (
     <div className="Container">
-        <ExerciseInput
-          key={editedExercise?.id}
-          userId={Number(userId)}
-          editExercise={editedExercise}
-          onSubmitExercise={handleSubmitExercise}
-        />
-        <ExerciseFilter
-          filter={filter}
-          onFilterChange={(filter) => setFilter(filter)}
-        />
-        <ExerciseList
-          exercises={exercises}
-          userId={Number(userId)}
-          filter={filter}
-          onUpdateExercise={handleSubmitExercise}
-          onDeleteExercise={handleDeleteExercise}
-          onEditExercise={handleEditExercise}
-        />
+      {userExists === undefined ? (
+        <div id="detail">
+          <Outlet />
+        </div>
+      ) : (
+        <>
+          <ExerciseInput
+            key={editedExercise?.id}
+            userId={Number(userId)}
+            editExercise={editedExercise}
+            onSubmitExercise={handleSubmitExercise}
+          />
+          <ExerciseFilter
+            filter={filter}
+            onFilterChange={(filter) => setFilter(filter)}
+          />
+          <ExerciseList
+            exercises={exercises}
+            userId={Number(userId)}
+            filter={filter}
+            onUpdateExercise={handleSubmitExercise}
+            onDeleteExercise={handleDeleteExercise}
+            onEditExercise={handleEditExercise}
+          />
+        </>
+      )}
     </div>
   );
 }

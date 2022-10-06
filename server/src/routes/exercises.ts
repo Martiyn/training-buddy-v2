@@ -60,7 +60,6 @@ router.put('/:exerciseId', async function (req, res) {
                 exercises[i] = editedexercise
             }
         });
-        exercises.push(editedexercise);
         try {
             promises.writeFile(exercisesDb, JSON.stringify(exercises));
             res.json(editedexercise);
