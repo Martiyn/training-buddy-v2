@@ -32,7 +32,7 @@ function Exercises() {
       .catch((err) => {
         console.log(err);
       });
-  }, [exercises]);
+  }, []);
 
   async function handleDeleteExercise(exercise: Exercise) {
     try {

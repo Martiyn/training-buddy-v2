@@ -59,8 +59,4 @@ export class MongodbRepository<T extends ServerIdentifiable> implements Reposito
         }
         return replaceWithId(deleted.value as WithId<T>);
     }
-
-    async count(): Promise<number> {
-        throw new Error('Method not implemented.');
-    }
 }

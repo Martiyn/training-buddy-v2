@@ -7,8 +7,8 @@ import { sendErrorResponse } from './backend-utils.js';
 import { AuthenticationError, ForbiddenError, InvalidDataError, NotFoundError } from './model/errors.js';
 import { MongoClient } from 'mongodb';
 import { MongodbRepository } from './dao/mongodb-repository.js';
-import { User } from '../../src/Utils/users-model.js';
 import { Exercise } from '../../src/Utils/exercise-model.js';
+import { UserRepository } from './dao/user-repository.js';
 
 const app = express();
 app.use(cors());
@@ -46,7 +46,7 @@ app.use(function (err, req, res, next) {
     const con = await MongoClient.connect(dbUrl);
     const db = con.db(database);
     app.locals.exercisesRepo = new MongodbRepository<Exercise>(db, exercisesCollection);
-    app.locals.usersRepo = new MongodbRepository<User>(db, usersCollection);
+    app.locals.usersRepo = new UserRepository(db, usersCollection);
 
     app.listen(PORT, HOSTNAME, () => {
         console.log(`HTTP Server listening on: http://${HOSTNAME}:${PORT}`);

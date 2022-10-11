@@ -13,7 +13,6 @@ import "../App.css";
 
 function UserLogin() {
   const [loggedUser, setLoggedUser] = useState<Optional<User>>(undefined);
-  const users = useLoaderData() as User[];
 
   const schema = yup
     .object({
@@ -37,18 +36,23 @@ function UserLogin() {
     password: string;
   };
 
-  function handleUserLogin(
+  async function handleUserLogin(
     data: FormData,
     event: BaseSyntheticEvent<object, any, any> | undefined
   ) {
     try {
       event?.preventDefault();
-      const userToLogin = users.filter(
-        (user) =>
-          user.userName === data.userName && user.password === data.password
-      );
-      if (userToLogin.length > 0) {
-        setLoggedUser(userToLogin[0]);
+      const resp = await fetch("http://localhost:4000/users/login", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const respJson = await resp.json();
+      const userToLogin = JSON.parse(JSON.stringify(respJson));
+      if (userToLogin.user) {
+        setLoggedUser(userToLogin.user);
       } else {
         alert("Please check your username and password and try again.");
       }

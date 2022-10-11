@@ -34,7 +34,7 @@ function Users() {
         setUsers(allUsers);
       })
       .catch((err) => console.log(err));
-  }, [users]);
+  }, []);
 
   const handleStatusFilterChange = (statusFilter: StatusFilterType) => {
     setStatusFilter(statusFilter);
