@@ -1,6 +1,6 @@
 import React, { BaseSyntheticEvent, useState } from "react";
-import { Optional, UserListener } from "../Utils/shared-types";
-import { User, UserRole } from "../Utils/users-model";
+import { Optional } from "../Utils/shared-types";
+import { User } from "../Utils/users-model";
 import * as yup from "yup";
 import InputText from "../InputTemplates/InputText";
 import Button from "@mui/material/Button";
@@ -8,8 +8,7 @@ import Box from "@mui/material/Box";
 import LoginIcon from "@mui/icons-material/Login";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link, redirect, useLoaderData } from "react-router-dom";
-import LogoutIcon from "@mui/icons-material/Logout";
+import { Link, useLoaderData } from "react-router-dom";
 import "../App.css";
 
 function UserLogin() {

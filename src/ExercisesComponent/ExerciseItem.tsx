@@ -1,10 +1,4 @@
-import {
-  Card,
-  IconButton,
-  TableCell,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { IconButton, TableCell, TableRow } from "@mui/material";
 import React from "react";
 import {
   Exercise,

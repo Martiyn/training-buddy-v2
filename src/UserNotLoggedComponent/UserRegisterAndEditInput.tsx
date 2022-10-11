@@ -42,7 +42,7 @@ type FormData = {
 
 const schema = yup
   .object({
-    id: yup.number().positive(),
+    id: yup.string(),
     firstName: yup.string().required().min(2).max(15),
     lastName: yup.string().required().min(2).max(15),
     userName: yup.string().required().min(5).max(15),

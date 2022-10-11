@@ -1,4 +1,12 @@
-import { Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { useMemo } from "react";
 import { Exercise, ExerciseStatus } from "../Utils/exercise-model";
 import { ExerciseFilterType, ExerciseListener } from "../Utils/exercise-model";

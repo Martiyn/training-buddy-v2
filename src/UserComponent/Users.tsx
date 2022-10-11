@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "../App.css";
 import { UsersApi } from "../rest-api-client";
 import {
@@ -7,14 +7,13 @@ import {
   RoleFilterType,
 } from "../Utils/shared-types";
 import UserInput from "../UserNotLoggedComponent/UserRegisterAndEditInput";
-import UserLogin from "../UserNotLoggedComponent/Login";
-import { User, UserStatus } from "../Utils/users-model";
+import { User } from "../Utils/users-model";
 import UserStatusFilter from "./UserStatusFilter";
 import UsersList from "./UsersList";
 import UserRoleFilter from "./UserRoleFilter";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Link, useLoaderData, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function Users() {
   let { userId } = useParams();
@@ -24,19 +23,18 @@ function Users() {
   const [editedUser, setEditedUser] = useState<Optional<User>>(undefined);
   const [loggedUser, setLoggedUser] = useState<Optional<User>>(undefined);
 
-  if (userId) {
-    UsersApi.findById(userId).then((loggedUser) => {
-      setLoggedUser(loggedUser);
-    });
-  }
-
   useEffect(() => {
+    if (userId) {
+      UsersApi.findById(userId).then((loggedUser) => {
+        setLoggedUser(loggedUser);
+      });
+    }
     UsersApi.findAll()
       .then((allUsers) => {
         setUsers(allUsers);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [users]);
 
   const handleStatusFilterChange = (statusFilter: StatusFilterType) => {
     setStatusFilter(statusFilter);
@@ -64,7 +62,7 @@ function Users() {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [users]);
 
   const handleEditUser = useCallback((user: User) => {
     setEditedUser(user);
@@ -81,43 +79,43 @@ function Users() {
 
   return (
     <div className="Container">
-        {loggedUser ? (
-          <Button
+      {loggedUser ? (
+        <Button
           component={Link}
-            to={`/`}
-            variant="contained"
-            onClick={handleUserLogout}
-            endIcon={<LogoutIcon />}
-            type="button"
-          >
-            Logout
-          </Button>
-        ) : null}
-        <UserInput
-          key={editedUser?.id}
-          loggedUser={loggedUser}
-          editUser={editedUser}
-          onSubmitUser={handleUserSubmit}
-        />
+          to={`/`}
+          variant="contained"
+          onClick={handleUserLogout}
+          endIcon={<LogoutIcon />}
+          type="button"
+        >
+          Logout
+        </Button>
+      ) : null}
+      <UserInput
+        key={editedUser?.id}
+        loggedUser={loggedUser}
+        editUser={editedUser}
+        onSubmitUser={handleUserSubmit}
+      />
 
-        <UserStatusFilter
-          filter={statusFilter}
-          onFilterChange={handleStatusFilterChange}
-        />
+      <UserStatusFilter
+        filter={statusFilter}
+        onFilterChange={handleStatusFilterChange}
+      />
 
-        <UserRoleFilter
-          filter={roleFilter}
-          onFilterChange={handleRoleFilterChange}
-        />
+      <UserRoleFilter
+        filter={roleFilter}
+        onFilterChange={handleRoleFilterChange}
+      />
 
-        <UsersList
-          users={users}
-          statusFilter={statusFilter}
-          roleFilter={roleFilter}
-          loggedUser={loggedUser}
-          onDeleteUser={handleUserDelete}
-          onEditUser={handleEditUser}
-        />
+      <UsersList
+        users={users}
+        statusFilter={statusFilter}
+        roleFilter={roleFilter}
+        loggedUser={loggedUser}
+        onDeleteUser={handleUserDelete}
+        onEditUser={handleEditUser}
+      />
     </div>
   );
 }

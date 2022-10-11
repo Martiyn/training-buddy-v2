@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   Exercise,
   ExerciseFilterType,
-  ExerciseStatus,
 } from "../Utils/exercise-model";
 import ExerciseList from "./ExercisesList";
 import ExerciseFilter from "./ExerciseFilter";
@@ -22,7 +21,7 @@ function Exercises() {
     useState<Optional<Exercise>>(undefined);
 
   const userExists = users.find((u) => {
-    return u.id === parseInt(userId);
+    return u.id === userId;
   });
 
   useEffect(() => {
@@ -33,7 +32,7 @@ function Exercises() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [exercises]);
 
   async function handleDeleteExercise(exercise: Exercise) {
     try {
@@ -48,7 +47,7 @@ function Exercises() {
 
   const handleEditExercise = useCallback((exercise: Exercise) => {
     setEditedExercise(exercise);
-  }, []);
+  }, [exercises]);
 
   const handleSubmitExercise = useCallback(async (exercise: Exercise) => {
     try {
@@ -76,7 +75,7 @@ function Exercises() {
         <>
           <ExerciseInput
             key={editedExercise?.id}
-            userId={Number(userId)}
+            userId={userId}
             editExercise={editedExercise}
             onSubmitExercise={handleSubmitExercise}
           />
@@ -86,7 +85,7 @@ function Exercises() {
           />
           <ExerciseList
             exercises={exercises}
-            userId={Number(userId)}
+            userId={userId}
             filter={filter}
             onUpdateExercise={handleSubmitExercise}
             onDeleteExercise={handleDeleteExercise}

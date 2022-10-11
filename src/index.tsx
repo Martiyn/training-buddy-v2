@@ -6,7 +6,6 @@ import Exercises from "./ExercisesComponent/Exercises";
 import reportWebVitals from "./reportWebVitals";
 import {
   createBrowserRouter,
-  redirect,
   RouterProvider,
 } from "react-router-dom";
 import UserLogin from "./UserNotLoggedComponent/Login";
