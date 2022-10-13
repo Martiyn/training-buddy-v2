@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User } from '../../../src/Utils/users-model.js';
 import { sendErrorResponse } from '../backend-utils.js';
-import { Repository } from '../dao/repository-model.js';
+import { Repository } from '../model/repository-model.js';
 import { UserRepository } from '../dao/user-repository.js';
 import Credentials from '../model/auth.js';
 import { AuthenticationError, InvalidDataError } from '../model/errors.js';

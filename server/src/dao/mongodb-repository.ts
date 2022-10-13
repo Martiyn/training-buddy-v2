@@ -1,4 +1,4 @@
-import { ServerIdentifiable, Repository } from './repository-model.js';
+import { ServerIdentifiable, Repository } from '../model/repository-model.js';
 import { NotFoundError } from '../model/errors.js';
 import { Db, ObjectId, OptionalId, OptionalUnlessRequiredId, WithId } from 'mongodb';
 import { replaceWithId, replaceWith_id } from '../backend-utils.js';

@@ -1,7 +1,7 @@
 import express from 'express';
 import { Exercise } from '../../../src/Utils/exercise-model.js';
 import { sendErrorResponse } from '../backend-utils.js';
-import { Repository } from '../dao/repository-model.js';
+import { Repository } from '../model/repository-model.js';
 
 const router = express.Router();
 

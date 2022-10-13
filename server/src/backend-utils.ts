@@ -1,6 +1,6 @@
 import { IdType } from "../../src/Utils/shared-types";
 import { OptionalUnlessRequiredId, WithId } from "mongodb";
-import { ServerIdentifiable } from "./dao/repository-model";
+import { ServerIdentifiable } from "./model/repository-model";
 
 export const sendErrorResponse = function (req, res, status = 500, message, err = null) {
     if (req.get('env') === 'production') {
