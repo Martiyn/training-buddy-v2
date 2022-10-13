@@ -7,13 +7,15 @@ import {
   RoleFilterType,
 } from "../Utils/shared-types";
 import UserInput from "../UserNotLoggedComponent/UserRegisterAndEditInput";
-import { User } from "../Utils/users-model";
+import { User, UserRole } from "../Utils/users-model";
 import UserStatusFilter from "./UserStatusFilter";
 import UsersList from "./UsersList";
 import UserRoleFilter from "./UserRoleFilter";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useParams } from "react-router-dom";
+import LoginIcon from "@mui/icons-material/Login";
+import { Box, Typography } from "@mui/material";
 
 function Users() {
   let { userId } = useParams();
@@ -34,7 +36,17 @@ function Users() {
         setUsers(allUsers);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [
+    editedUser?.firstName,
+    editedUser?.lastName,
+    editedUser?.gender,
+    editedUser?.role,
+    editedUser?.status,
+    editedUser?.shortDescription,
+    editedUser?.registeredOn,
+    editedUser?.modifiedOn,
+    editedUser?.picture,
+  ]);
 
   const handleStatusFilterChange = (statusFilter: StatusFilterType) => {
     setStatusFilter(statusFilter);
@@ -55,6 +67,7 @@ function Users() {
         setUsers((users) =>
           users.map((u) => (u.id === updated.id ? updated : u))
         );
+        setEditedUser(null);
       } else {
         const created = await UsersApi.create(user);
         setUsers((users) => users.concat(created));
@@ -62,7 +75,7 @@ function Users() {
     } catch (err) {
       console.log(err);
     }
-  }, [users]);
+  }, []);
 
   const handleEditUser = useCallback((user: User) => {
     setEditedUser(user);
@@ -79,24 +92,52 @@ function Users() {
 
   return (
     <div className="Container">
+      {!loggedUser || editedUser ? (
+        <UserInput
+          key={editedUser?.id}
+          loggedUser={loggedUser}
+          editUser={editedUser}
+          onSubmitUser={handleUserSubmit}
+        />
+      ) : null}
       {loggedUser ? (
+        <>
+          <Typography component="div">
+            <Box
+              sx={{ fontFamily: "Monospace", fontSize: "h6.fontSize", m: 1 }}
+            >
+              Currently logged in as: {loggedUser.userName}. Role:{" "}
+              {UserRole[loggedUser.role]}
+            </Box>
+          </Typography>
+          <Button
+            sx={{
+              marginTop: 2,
+            }}
+            component={Link}
+            to={`/`}
+            variant="contained"
+            onClick={handleUserLogout}
+            endIcon={<LogoutIcon />}
+            type="button"
+          >
+            Logout
+          </Button>
+        </>
+      ) : (
         <Button
+          sx={{
+            marginTop: 5,
+          }}
           component={Link}
-          to={`/`}
+          to={`/login`}
           variant="contained"
-          onClick={handleUserLogout}
-          endIcon={<LogoutIcon />}
+          endIcon={<LoginIcon />}
           type="button"
         >
-          Logout
+          Go to login
         </Button>
-      ) : null}
-      <UserInput
-        key={editedUser?.id}
-        loggedUser={loggedUser}
-        editUser={editedUser}
-        onSubmitUser={handleUserSubmit}
-      />
+      )}
 
       <UserStatusFilter
         filter={statusFilter}

@@ -8,8 +8,10 @@ import Box from "@mui/material/Box";
 import LoginIcon from "@mui/icons-material/Login";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
+import ShortcutIcon from "@mui/icons-material/Shortcut";
 import "../App.css";
+import { Typography } from "@mui/material";
 
 function UserLogin() {
   const [loggedUser, setLoggedUser] = useState<Optional<User>>(undefined);
@@ -96,17 +98,38 @@ function UserLogin() {
             <Button variant="contained" endIcon={<LoginIcon />} type="submit">
               Login
             </Button>
+            <Button
+              sx={{
+                marginTop: 5,
+              }}
+              component={Link}
+              to={`/`}
+              variant="contained"
+              endIcon={<ShortcutIcon />}
+              type="button"
+            >
+              Go to users
+            </Button>
           </Box>
         ) : (
-          <Button
-            component={Link}
-            to={`/${loggedUser.id}`}
-            variant="contained"
-            endIcon={<LoginIcon />}
-            type="button"
-          >
-            Go to training
-          </Button>
+          <>
+            <Typography component="div">
+              <Box
+                sx={{ fontFamily: "Monospace", fontSize: "h6.fontSize", m: 1 }}
+              >
+                Successfully logged in as: {loggedUser.userName}
+              </Box>
+            </Typography>
+            <Button
+              component={Link}
+              to={`/${loggedUser.id}`}
+              variant="contained"
+              endIcon={<LoginIcon />}
+              type="button"
+            >
+              Go to training
+            </Button>
+          </>
         )}
       </div>
     </React.Fragment>

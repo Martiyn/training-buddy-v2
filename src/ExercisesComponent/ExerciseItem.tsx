@@ -58,25 +58,6 @@ const ExerciseItem = ({
         )}
       </TableCell>
     </TableRow>
-    // <div className="TodoItem">
-    //   <span className="TodoItem-text">{exercise.text}</span>
-    //   <span className="TodoItem-right">
-    //     <span className="TodoItem-status">
-    //       {ExerciseStatus[exercise.status]}
-    //     </span>
-    //     {exercise.status === ExerciseStatus.Active ? (
-    //       <button
-    //         className="TodoItem-button fas fa-check-circle"
-    //         onClick={handleCompletion}
-    //       >
-    //         Complete
-    //       </button>
-    //     ) : (
-    //       <button onClick={handleDelete}>Delete</button>
-    //     )}
-    //     <button onClick={() => onEditExercise(exercise)}>Edit</button>
-    //   </span>
-    // </div>
   );
 };
 

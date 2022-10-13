@@ -41,9 +41,15 @@ function UserInput({
   editExercise,
   onSubmitExercise,
 }: ExerciseInputProps) {
-  const [type, setType] = useState<string>(editExercise?.type.toString() || "1");
-  const [reps, setReps] = useState<string>(editExercise?.reps?.toString() || "0");
-  const [hold, setHold] = useState<string>(editExercise?.hold?.toString() || "0");
+  const [type, setType] = useState<string>(
+    editExercise?.type.toString() || "1"
+  );
+  const [reps, setReps] = useState<string>(
+    editExercise?.reps?.toString() || "0"
+  );
+  const [hold, setHold] = useState<string>(
+    editExercise?.hold?.toString() || "0"
+  );
   const {
     control,
     setValue,

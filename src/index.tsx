@@ -25,13 +25,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    loader: () => UsersApi.findAll(),
     element: <UserLogin />,
     errorElement: <ErrorPage />,
   },
   {
     path: "/exercises/:userId",
-    loader: () => UsersApi.findAll(),
     element: <Exercises />,
     errorElement: <ErrorPage />,
     children: [

@@ -46,14 +46,17 @@ const schema = yup
     firstName: yup.string().required().min(2).max(15),
     lastName: yup.string().required().min(2).max(15),
     userName: yup.string().required().min(5).max(15),
-    password: yup
-      .string()
-      .required()
-      .min(8)
-      .matches(
-        passwordRegex,
-        "password must contain at least one number and one special character"
-      ),
+    password: yup.string().when("isDisabled", {
+      is: false,
+      then: yup
+        .string()
+        .required()
+        .min(8)
+        .matches(
+          passwordRegex,
+          "password must contain at least one number and one special character"
+        ),
+    }),
     picture: yup.string().required().url(),
     shortDescription: yup.string().required().max(75),
   })
@@ -167,12 +170,7 @@ function UserInput({ editUser, loggedUser, onSubmitUser }: UserInputProps) {
           label="Password"
           control={control}
           error={errors.password?.message}
-          disabled={
-            loggedUser?.id !== editUser?.id &&
-            loggedUser?.role === UserRole.Admin
-              ? true
-              : false
-          }
+          disabled={editUser ? true : false}
           rules={{ required: true, minLength: 8 }}
         />
         <InputText

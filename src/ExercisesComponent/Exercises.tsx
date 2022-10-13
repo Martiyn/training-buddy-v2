@@ -1,30 +1,35 @@
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  Exercise,
-  ExerciseFilterType,
-} from "../Utils/exercise-model";
+import { useCallback, useEffect, useState } from "react";
+import { Exercise, ExerciseFilterType } from "../Utils/exercise-model";
 import ExerciseList from "./ExercisesList";
 import ExerciseFilter from "./ExerciseFilter";
 import { ExerciseApi } from "../rest-api-client";
+import { UsersApi } from "../rest-api-client";
 import ExerciseInput from "./ExerciseInput";
 import "../App.css";
 import { Optional } from "../Utils/shared-types";
-import { Outlet, useLoaderData, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { User } from "../Utils/users-model";
+import { Button } from "@mui/material";
+import UndoIcon from "@mui/icons-material/Undo";
+import { useNavigate } from "react-router-dom";
 
 function Exercises() {
   let { userId } = useParams();
-  const users = useLoaderData() as User[];
   const [exercises, setExercises] = useState([] as Exercise[]);
+  const [userExists, setUserExists] = useState<Optional<User>>(undefined);
   const [filter, setFilter] = useState(undefined as ExerciseFilterType);
   const [editedExercise, setEditedExercise] =
     useState<Optional<Exercise>>(undefined);
-
-  const userExists = users.find((u) => {
-    return u.id === userId;
-  });
+  const navigate = useNavigate();
 
   useEffect(() => {
+    UsersApi.findById(userId)
+      .then((user) => {
+        setUserExists(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     ExerciseApi.findAll()
       .then((allExercises) => {
         setExercises(allExercises);
@@ -32,7 +37,13 @@ function Exercises() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [
+    editedExercise?.text,
+    editedExercise?.type,
+    editedExercise?.hold,
+    editedExercise?.reps,
+    editedExercise?.status,
+  ]);
 
   async function handleDeleteExercise(exercise: Exercise) {
     try {
@@ -47,15 +58,15 @@ function Exercises() {
 
   const handleEditExercise = useCallback((exercise: Exercise) => {
     setEditedExercise(exercise);
-  }, [exercises]);
+  }, []);
 
   const handleSubmitExercise = useCallback(async (exercise: Exercise) => {
     try {
       if (exercise.id) {
-        const updated = await ExerciseApi.update(exercise);
-        setExercises((exercises) =>
-          exercises.map((ex) => (ex.id === updated.id ? updated : ex))
-        );
+        await ExerciseApi.update(exercise);
+        const updatedList = await ExerciseApi.findAll();
+        setExercises(updatedList);
+        setEditedExercise(undefined);
       } else {
         const created = await ExerciseApi.create(exercise);
         setExercises((exercises) => exercises.concat(created));
@@ -91,6 +102,17 @@ function Exercises() {
             onDeleteExercise={handleDeleteExercise}
             onEditExercise={handleEditExercise}
           />
+          <Button
+            sx={{
+              marginTop: 5,
+            }}
+            variant="contained"
+            endIcon={<UndoIcon />}
+            onClick={() => navigate(-1)}
+            type="button"
+          >
+            Go back
+          </Button>
         </>
       )}
     </div>
