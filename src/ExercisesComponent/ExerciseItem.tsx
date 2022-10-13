@@ -9,9 +9,13 @@ import { ExerciseListener } from "../Utils/exercise-model";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
+import { IdType, Optional } from "../Utils/shared-types";
+import { User, UserRole } from "../Utils/users-model";
 
 interface ExerciseItemProps {
   exercise: Exercise;
+  loggedUser: Optional<User>;
+  userId: IdType;
   onUpdateExercise: ExerciseListener;
   onDeleteExercise: ExerciseListener;
   onEditExercise: ExerciseListener;
@@ -19,6 +23,8 @@ interface ExerciseItemProps {
 
 const ExerciseItem = ({
   exercise,
+  loggedUser,
+  userId,
   onUpdateExercise,
   onDeleteExercise,
   onEditExercise,
@@ -29,6 +35,7 @@ const ExerciseItem = ({
   function handleDelete(event: React.MouseEvent) {
     onDeleteExercise(exercise);
   }
+
   return (
     <TableRow
       key={exercise.text}
@@ -42,17 +49,34 @@ const ExerciseItem = ({
       <TableCell align="right">{exercise.reps}</TableCell>
       <TableCell align="right">{exercise.hold} sec.</TableCell>
       <TableCell align="right">
-        <IconButton onClick={() => onEditExercise(exercise)} aria-label="edit">
+        <IconButton
+          disabled={
+            loggedUser?.id === userId ||
+            loggedUser?.role === UserRole.Instructor
+              ? false
+              : true
+          }
+          onClick={() => onEditExercise(exercise)}
+          aria-label="edit"
+        >
           <EditIcon />
         </IconButton>
       </TableCell>
       <TableCell align="right">
         {exercise.status === ExerciseStatus.Active ? (
-          <IconButton onClick={handleCompletion} aria-label="delete">
+          <IconButton
+            disabled={loggedUser?.id !== userId ? true : false}
+            onClick={handleCompletion}
+            aria-label="delete"
+          >
             <CheckIcon />
           </IconButton>
         ) : (
-          <IconButton onClick={handleDelete} aria-label="delete">
+          <IconButton
+            disabled={loggedUser?.id !== userId ? true : false}
+            onClick={handleDelete}
+            aria-label="delete"
+          >
             <DeleteIcon />
           </IconButton>
         )}

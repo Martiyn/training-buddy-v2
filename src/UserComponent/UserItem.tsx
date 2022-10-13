@@ -107,7 +107,11 @@ export const UserItem = ({
             </IconButton>
           </React.Fragment>
         ) : null}
-        <IconButton component={Link} to={`/exercises/${user.id}`}>
+        <IconButton
+          component={Link}
+          to={`/exercises/${user.id}`}
+          state={{ loggedUser: loggedUser }}
+        >
           <FitnessCenterIcon />
         </IconButton>
       </CardActions>

@@ -8,19 +8,23 @@ import ExerciseInput from "./ExerciseInput";
 import "../App.css";
 import { Optional } from "../Utils/shared-types";
 import { Outlet, useParams } from "react-router-dom";
-import { User } from "../Utils/users-model";
+import { User, UserRole } from "../Utils/users-model";
 import { Button } from "@mui/material";
 import UndoIcon from "@mui/icons-material/Undo";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Exercises() {
   let { userId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [exercises, setExercises] = useState([] as Exercise[]);
   const [userExists, setUserExists] = useState<Optional<User>>(undefined);
   const [filter, setFilter] = useState(undefined as ExerciseFilterType);
   const [editedExercise, setEditedExercise] =
     useState<Optional<Exercise>>(undefined);
-  const navigate = useNavigate();
+  const [loggedUser, setLoggedUser] = useState<Optional<User>>(
+    location.state.loggedUser
+  );
 
   useEffect(() => {
     UsersApi.findById(userId)
@@ -37,13 +41,7 @@ function Exercises() {
       .catch((err) => {
         console.log(err);
       });
-  }, [
-    editedExercise?.text,
-    editedExercise?.type,
-    editedExercise?.hold,
-    editedExercise?.reps,
-    editedExercise?.status,
-  ]);
+  }, []);
 
   async function handleDeleteExercise(exercise: Exercise) {
     try {
@@ -64,8 +62,8 @@ function Exercises() {
     try {
       if (exercise.id) {
         await ExerciseApi.update(exercise);
-        const updatedList = await ExerciseApi.findAll();
-        setExercises(updatedList);
+        const updatedExercises = await ExerciseApi.findAll();
+        setExercises(updatedExercises);
         setEditedExercise(undefined);
       } else {
         const created = await ExerciseApi.create(exercise);
@@ -84,12 +82,15 @@ function Exercises() {
         </div>
       ) : (
         <>
-          <ExerciseInput
-            key={editedExercise?.id}
-            userId={userId}
-            editExercise={editedExercise}
-            onSubmitExercise={handleSubmitExercise}
-          />
+          {loggedUser?.id === userId ||
+          loggedUser?.role === UserRole.Instructor ? (
+            <ExerciseInput
+              key={editedExercise?.id}
+              userId={userId}
+              editExercise={editedExercise}
+              onSubmitExercise={handleSubmitExercise}
+            />
+          ) : null}
           <ExerciseFilter
             filter={filter}
             onFilterChange={(filter) => setFilter(filter)}
@@ -98,6 +99,7 @@ function Exercises() {
             exercises={exercises}
             userId={userId}
             filter={filter}
+            loggedUser={loggedUser}
             onUpdateExercise={handleSubmitExercise}
             onDeleteExercise={handleDeleteExercise}
             onEditExercise={handleEditExercise}

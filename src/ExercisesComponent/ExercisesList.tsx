@@ -10,13 +10,15 @@ import {
 import { useMemo } from "react";
 import { Exercise, ExerciseStatus } from "../Utils/exercise-model";
 import { ExerciseFilterType, ExerciseListener } from "../Utils/exercise-model";
-import { IdType } from "../Utils/shared-types";
+import { IdType, Optional } from "../Utils/shared-types";
+import { User } from "../Utils/users-model";
 import ExerciseItem from "./ExerciseItem";
 
 interface ExerciseListProps {
   exercises: Exercise[];
   userId: IdType;
   filter: ExerciseFilterType;
+  loggedUser: Optional<User>;
   onUpdateExercise: ExerciseListener;
   onDeleteExercise: ExerciseListener;
   onEditExercise: ExerciseListener;
@@ -26,6 +28,7 @@ export default function ExerciseList({
   userId,
   exercises,
   filter,
+  loggedUser,
   ...rest
 }: ExerciseListProps) {
   const visibleExercises = (
@@ -55,7 +58,13 @@ export default function ExerciseList({
         </TableHead>
         <TableBody>
           {memoizedVisibleExercises.map((exercise) => (
-            <ExerciseItem exercise={exercise} key={exercise.id} {...rest} />
+            <ExerciseItem
+              exercise={exercise}
+              loggedUser={loggedUser}
+              userId={userId}
+              key={exercise.id}
+              {...rest}
+            />
           ))}
         </TableBody>
       </Table>

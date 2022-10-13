@@ -35,9 +35,10 @@ router.post('/', async function (req, res, next) {
     const usersRepo: UserRepository = req.app.locals.usersRepo;
     const newUser = req.body;
     try {
-        const found = await usersRepo.findByUsername(newUser.username);
+        const found = await usersRepo.findByUsername(newUser.userName);
         if (found) {
-            next(new InvalidDataError(`Username already taken: "${newUser.username}"`));
+            next(new InvalidDataError(`Username already taken: "${newUser.userName}"`))
+            return;
         }
 
         newUser.password = await bcrypt.hash(newUser.password, 8);
@@ -79,7 +80,7 @@ router.post('/login', async (req, res, next) => {
     const credentials = req.body as Credentials;
 
     try {
-        const user = await usersRepo.findByUsername(credentials.username);
+        const user = await usersRepo.findByUsername(credentials.userName);
         if (!user) {
             next(new AuthenticationError(`Username or password is incorrect.`));
             return;

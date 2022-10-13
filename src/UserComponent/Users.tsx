@@ -36,17 +36,7 @@ function Users() {
         setUsers(allUsers);
       })
       .catch((err) => console.log(err));
-  }, [
-    editedUser?.firstName,
-    editedUser?.lastName,
-    editedUser?.gender,
-    editedUser?.role,
-    editedUser?.status,
-    editedUser?.shortDescription,
-    editedUser?.registeredOn,
-    editedUser?.modifiedOn,
-    editedUser?.picture,
-  ]);
+  }, []);
 
   const handleStatusFilterChange = (statusFilter: StatusFilterType) => {
     setStatusFilter(statusFilter);
@@ -63,14 +53,14 @@ function Users() {
   const handleUserSubmit = useCallback(async (user: User) => {
     try {
       if (user.id) {
-        const updated = await UsersApi.update(user);
-        setUsers((users) =>
-          users.map((u) => (u.id === updated.id ? updated : u))
-        );
+        await UsersApi.update(user);
+        const updatedUsers = await UsersApi.findAll();
+        setUsers(updatedUsers);
         setEditedUser(null);
       } else {
-        const created = await UsersApi.create(user);
-        setUsers((users) => users.concat(created));
+        await UsersApi.create(user);
+        const updatedUsers = await UsersApi.findAll();
+        setUsers(updatedUsers);
       }
     } catch (err) {
       console.log(err);
@@ -85,6 +75,9 @@ function Users() {
     try {
       await UsersApi.deleteById(user.id);
       setUsers((users) => users.filter((u) => u.id !== user.id));
+      if (loggedUser.id === user.id) {
+        setLoggedUser(undefined);
+      }
     } catch (err) {
       console.log(err);
     }
