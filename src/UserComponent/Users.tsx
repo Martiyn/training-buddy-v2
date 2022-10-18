@@ -47,6 +47,7 @@ function Users() {
   };
 
   const handleUserLogout = useCallback(() => {
+    localStorage.removeItem("token");
     setLoggedUser(null);
   }, []);
 
@@ -76,6 +77,7 @@ function Users() {
       await UsersApi.deleteById(user.id);
       setUsers((users) => users.filter((u) => u.id !== user.id));
       if (loggedUser.id === user.id) {
+        localStorage.removeItem("token")
         setLoggedUser(undefined);
       }
     } catch (err) {
