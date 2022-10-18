@@ -7,6 +7,8 @@ import { Repository } from '../model/repository-model.js';
 import { UserRepository } from '../dao/user-repository.js';
 import Credentials from '../model/auth.js';
 import { AuthenticationError, InvalidDataError } from '../model/errors.js';
+import verifyToken from '../authentication/verifyToken.js';
+import verifyRole from '../authentication/verifyRole.js';
 
 const router = express.Router();
 
@@ -51,12 +53,11 @@ router.post('/', async function (req, res, next) {
     }
 });
 
-router.put('/:userId', async function (req, res) {
+router.put('/:userId', verifyToken, verifyRole(['User', 'Instructor', 'Administrator']), async function (req, res) {
     const usersRepo: Repository<User> = req.app.locals.usersRepo;
     const editedUser = req.body;
-
     try {
-        const updated = await usersRepo.update(editedUser);
+        const updated = await usersRepo.update(editedUser as unknown as User);
         res.json(updated);
     } catch (error) {
         console.error(`Unable to update user.`);
@@ -64,7 +65,7 @@ router.put('/:userId', async function (req, res) {
     }
 });
 
-router.delete('/:userId', async function (req, res) {
+router.delete('/:userId', verifyToken, verifyRole(['User', 'Instructor', 'Administrator']), async function (req, res) {
     const usersRepo: Repository<User> = req.app.locals.usersRepo;
     const userId = req.params.userId;
     try {

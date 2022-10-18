@@ -25,7 +25,8 @@ export class ApiClientImpl<K, V extends Identifiable<K>> implements ApiClient<K,
         return this.handleRequest(`${API_BASE_URL}/${this.apiCollectionSuffix}`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': localStorage.getItem('token')
             },
             body: JSON.stringify(entityWithoutId)
         });
@@ -34,14 +35,18 @@ export class ApiClientImpl<K, V extends Identifiable<K>> implements ApiClient<K,
         return this.handleRequest(`${API_BASE_URL}/${this.apiCollectionSuffix}/${entity.id}`, {
             method: 'PUT',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': localStorage.getItem('token')
             },
             body: JSON.stringify(entity)
         });
     }
     deleteById(id: K): Promise<V> {
         return this.handleRequest(`${API_BASE_URL}/${this.apiCollectionSuffix}/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'authorization': localStorage.getItem('token')
+            }
         });
     }
 

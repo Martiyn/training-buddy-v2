@@ -1,5 +1,7 @@
 import express from 'express';
 import { Exercise } from '../../../src/Utils/exercise-model.js';
+import verifyRole from '../authentication/verifyRole.js';
+import verifyToken from '../authentication/verifyToken.js';
 import { sendErrorResponse } from '../backend-utils.js';
 import { Repository } from '../model/repository-model.js';
 
@@ -26,11 +28,11 @@ router.get("/:exerciseId", async (req, res) => {
     }
 });
 
-router.post('/', async function (req, res) {
+router.post('/', verifyToken, verifyRole(['User', 'Instructor', 'Administrator']), async function (req, res) {
     const exercisesRepo: Repository<Exercise> = req.app.locals.exercisesRepo;
     const newexercise = req.body;
     try {
-        const created = await exercisesRepo.create(newexercise);
+        const created = await exercisesRepo.create(newexercise as unknown as Exercise);
         res.json(created);
     } catch (err) {
         console.error(`Unable to create exercise: ${newexercise.firstName}.`);
@@ -39,12 +41,12 @@ router.post('/', async function (req, res) {
     }
 });
 
-router.put('/:exerciseId', async function (req, res) {
+router.put('/:exerciseId', verifyToken, verifyRole(['User', 'Instructor', 'Administrator']), async function (req, res) {
     const exercisesRepo: Repository<Exercise> = req.app.locals.exercisesRepo;
     const editedexercise = req.body;
 
     try {
-        const updated = await exercisesRepo.update(editedexercise);
+        const updated = await exercisesRepo.update(editedexercise as unknown as Exercise);
         res.json(updated);
     } catch (error) {
         console.error(`Unable to update exercise.`);
@@ -52,7 +54,7 @@ router.put('/:exerciseId', async function (req, res) {
     }
 });
 
-router.delete('/:exerciseId', async function (req, res) {
+router.delete('/:exerciseId', verifyToken, verifyRole(['User', 'Instructor', 'Admin']), async function (req, res) {
     const exercisesRepo: Repository<Exercise> = req.app.locals.exercisesRepo;
     const exerciseId = req.params.exerciseId;
     try {

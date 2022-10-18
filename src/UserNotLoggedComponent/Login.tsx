@@ -54,7 +54,7 @@ function UserLogin() {
       const respJson = await resp.json();
       const userToLogin = JSON.parse(JSON.stringify(respJson));
       if (userToLogin.user && userToLogin.token) {
-        localStorage.setItem("token", userToLogin.token)
+        localStorage.setItem("token", "Bearer " + userToLogin.token)
         setLoggedUser(userToLogin.user);
       } else {
         alert("Please check your username and password and try again.");
