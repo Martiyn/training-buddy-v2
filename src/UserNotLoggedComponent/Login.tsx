@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import ShortcutIcon from "@mui/icons-material/Shortcut";
 import "../App.css";
 import { Typography } from "@mui/material";
+import { ExtendedUsersApi, AuthUser } from "../rest-api/user-rest-api";
 
 function UserLogin() {
   const [loggedUser, setLoggedUser] = useState<Optional<User>>(undefined);
@@ -44,17 +45,9 @@ function UserLogin() {
   ) {
     try {
       event?.preventDefault();
-      const resp = await fetch("http://localhost:4000/users/login", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const respJson = await resp.json();
-      const userToLogin = JSON.parse(JSON.stringify(respJson));
+      const userToLogin = await ExtendedUsersApi.login(data as unknown as AuthUser);
       if (userToLogin.user && userToLogin.token) {
-        localStorage.setItem("token", "Bearer " + userToLogin.token)
+        localStorage.setItem("token", "Bearer " + userToLogin.token);
         setLoggedUser(userToLogin.user);
       } else {
         alert("Please check your username and password and try again.");

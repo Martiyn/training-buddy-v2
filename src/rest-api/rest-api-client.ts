@@ -1,8 +1,8 @@
-import { Exercise } from "./Utils/exercise-model";
-import { Identifiable, IdType } from "./Utils/shared-types";
-import { User } from "./Utils/users-model";
+import { Exercise } from "../Utils/exercise-model";
+import { Identifiable, IdType } from "../Utils/shared-types";
+import { User } from "../Utils/users-model";
 
-const API_BASE_URL = "http://localhost:4000";
+export const API_BASE_URL = "http://localhost:4000";
 
 export interface ApiClient<K, V extends Identifiable<K>> {
     findAll(): Promise<V[]>;
@@ -50,7 +50,7 @@ export class ApiClientImpl<K, V extends Identifiable<K>> implements ApiClient<K,
         });
     }
 
-    private async handleRequest(url: string, options?: RequestInit) {
+    async handleRequest(url: string, options?: RequestInit) {
         try {
             const resp = await fetch(url, options);
             if (resp.status >= 400) {

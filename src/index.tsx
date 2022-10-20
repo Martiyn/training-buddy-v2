@@ -9,7 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import UserLogin from "./UserNotLoggedComponent/Login";
-import { UsersApi } from "./rest-api-client";
+import { UsersApi } from "./rest-api/rest-api-client";
 import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([

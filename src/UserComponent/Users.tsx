@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import "../App.css";
-import { UsersApi } from "../rest-api-client";
+import { UsersApi } from "../rest-api/rest-api-client";
 import {
   StatusFilterType,
   Optional,
