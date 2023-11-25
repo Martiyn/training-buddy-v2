@@ -32,12 +32,6 @@ const router = createBrowserRouter([
     path: "/exercises/:userId",
     element: <Exercises />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        element: <ErrorPage />,
-      },
-    ],
   },
 ]);
 
